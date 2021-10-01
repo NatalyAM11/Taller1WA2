@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.MainTitle{
+    width: 59%;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    margin-top: 200px;
+}
+
+.titleMain{
+    font-family: Anton;
+    font-size: 35px;
+    font-weight: 400;
+}

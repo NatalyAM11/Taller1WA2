@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.characterForm{
+    width: 100%;
+    padding-top: 160px;
+    padding-left: 40px;
+    box-sizing: border-box;
+}
+
+.characterForm label{
+    width: 35%;
+    font-size: 18px;
+    font-family: Raleway;
+    display: block;
+    margin-top: 25px;
+}
+
+.characterForm input{
+    width: 100%;
+    display: block;
+    background: rgba(255, 255, 255, 0.164);
+    padding: 10px 10px;
+    border-radius: 5px;
+    border-color: white;
+    color: white;
+    margin-top: 5px;
+    font-size: 16px;
+    font-family: Raleway;
+}
+
+.titleForm{
+    width: fit-content;
+    font-family: Anton;
+    font-weight: 400;
+}
+
+.subtitleForm{
+    width: fit-content;
+    margin-top: 35px;
+}
+
+.largeInput{
+    width: 100%;
+    display: block;
+    background: rgba(255, 255, 255, 0.164);
+    padding: 10px 10px;
+    height: 70px;
+    border-radius: 5px;
+    border-color: white;
+    color: white;
+    font-size: 16px;
+    font-family: Raleway;
+}
+
+.CharacterForm_error{
+    color: rgb(238, 22, 22);
+    font-size: 16px;
+}

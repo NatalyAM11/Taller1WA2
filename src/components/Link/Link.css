@@ -1,0 +1,13 @@
+.Link{
+    font-family: Raleway;
+    color: white;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-size: 17px;
+    margin: 0px 25px;
+}
+
+.Link:hover{
+    font-weight:bold;
+    color: white;
+}

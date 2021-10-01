@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Volkhov&display=swap');
+
+.character{
+width: 30%;
+display: flex;
+flex-direction: column;
+}
+
+.characterName{
+    font-family: Volkhov;
+    font-weight: 400;
+    margin: 0px;
+    margin-left: 60%;
+    width: fit-content;
+}
