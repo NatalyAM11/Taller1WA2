@@ -4,10 +4,12 @@ import './CharacterForm.css';
 
 //evento cuando se crea el personaje
 interface CharacterFormProps{
-    onCreate: (newCharacter: CharacterProps)=>void;
+    //onCreate: (newCharacter: CharacterProps)=>void;
+    onCreate: (newCharacter: {name:string, img:string})=>void;
+    type: "create" | "edit";
 }
 
-export const CharacterForm: React.FC<CharacterFormProps> = ({onCreate})=>{
+export const CharacterForm: React.FC<CharacterFormProps> = ({ type, onCreate})=>{
 
     
     const [formSubmitted, setFormSubmitted] =React.useState(false);
@@ -47,7 +49,9 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({onCreate})=>{
     
     return <form className="characterForm" onSubmit={handleSubmit}>
 
-        <h3 className="titleForm">FORMULARIO</h3>
+
+
+        <h3 className="titleForm">{type==="create"? "CREA UN PERSONAJE NUEVO": "EDITA EL PERSONAJE"}</h3>
 
         <label>
             Nombre
@@ -104,7 +108,7 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({onCreate})=>{
             <input type="text"></input>
         </label>
 
-        <button className="button">AÑADIR</button>
+        <button className="button">{type==="create"? "CREAR": "GUARDAR CAMBIOS"}</button>
     </form>;
 
 }
