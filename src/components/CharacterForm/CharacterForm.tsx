@@ -1,15 +1,20 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import {CharacterProps} from "../Character/Character"
 import './CharacterForm.css';
 
 //evento cuando se crea el personaje
 interface CharacterFormProps{
     //onCreate: (newCharacter: CharacterProps)=>void;
-    onCreate: (newCharacter: {name:string, img:string})=>void;
+    editId: number | null;
     type: "create" | "edit";
+    onCreate: (newCharacter: {name:string, img:string})=>void;
+    onEdit: (id:number, editCharacter:{name:string})=>void;
 }
 
-export const CharacterForm: React.FC<CharacterFormProps> = ({ type, onCreate})=>{
+export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCreate, onEdit})=>{
+
+    const history= useHistory();
 
     
     const [formSubmitted, setFormSubmitted] =React.useState(false);
@@ -33,13 +38,27 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ type, onCreate})=>
 
         setFormSubmitted(true);
 
-        if(nameValid && mainImgValid){
+        if(type==="create" && nameValid && mainImgValid){
             console.log('valid')
 
             onCreate({
                 name: name,
                 img: mainImg
             })
+
+            //vacio los inputs
+            setName(" ");
+            setMainImg(" ");
+            //tambien el form vuelve a su estado inicial
+            setFormSubmitted(false);
+
+            history.push('/personajesList')
+
+        } else if(type==="edit" && nameValid){
+
+            if(editId!==null){
+                onEdit(editId, {name: name})
+            }
 
         } else{
             console.log('invalid')

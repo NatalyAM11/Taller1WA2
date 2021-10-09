@@ -1,5 +1,6 @@
 import React from 'react';
 import './Link.css';
+import {NavLink} from 'react-router-dom';
 
 interface LinkProps{
     text:string,
@@ -8,14 +9,12 @@ interface LinkProps{
 }
 
 export const Link: React.FC<LinkProps> = ({text, active, url})=>{
-    let className = 'Link';
 
-    if(active) {
-        className = 'Link_selected';
-    }
-    
-      return <a className={className} href={url}>
+      return <NavLink 
+      className="Link"
+      activeClassName="Link--active" 
+      to={url}>
       {text}
-      </a>;
+      </NavLink>;
 
 }

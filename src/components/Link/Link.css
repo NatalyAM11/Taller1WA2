@@ -7,7 +7,14 @@
     margin: 0px 25px;
 }
 
+
+
 .Link:hover{
+    font-weight:bold;
+    color: white;
+}
+
+.Link--active{
     font-weight:bold;
     color: white;
 }
