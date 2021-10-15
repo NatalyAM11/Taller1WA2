@@ -4,15 +4,12 @@
     width: 100%;
     display: flex;
     align-items: center;
-    margin: 100px 0px;
     padding-left: 120px;
     box-sizing: border-box;
+    margin-bottom: 90px;
 }
 
-.TitleElement{
-    font-family: Anton;
-    font-size: 35px;
-    font-weight: 400;
+.titleElement{
     margin-left: 39.5%;
 }
 

@@ -6,6 +6,10 @@ import {ElementTitle} from '../ElementTitle/ElementTitle'
 import {Character, CharacterProps} from '../Character/Character'
 import { CharacterForm } from '../CharacterForm/CharacterForm';
 import { HashRouter, Route} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
+import { useHistory } from 'react-router';
+import Weapon from '../Weapon/Weapon';
+import Artifacts from '../Artifacts/Artifacts';
 
 
 /*type CharacterElemObj= CharacterProps &{
@@ -15,11 +19,15 @@ import { HashRouter, Route} from 'react-router-dom';
 
 type CharacterElemObj = {
   name:string,
+  elementC: string,
   img: string,
   id: number;
 }
 
 function App() {
+
+  const history=useHistory();
+  
 
   const [formType, setFormType]= React.useState<'create' | 'edit'> ('create');
   const [editId, setEditId]= React.useState<number | null>(null);
@@ -29,12 +37,14 @@ function App() {
     {
       id: Math.random(),
       name: "DILUC",
-      img: `${process.env.PUBLIC_URL}/img/diluc.png`,
+      elementC: "pyro",
+      img: "diluc.png",
     },
   ])
 
+
   //const handleCreate=(newCharacter: CharacterProps)=>{
-  const handleCreate=(newCharacter: {name:string, img:string})=>{
+  const handleCreate=(newCharacter: {name:string, elementC:string, img:string})=>{
     console.log('Se creo', newCharacter)
 
     const newArrayCharacter=[
@@ -42,6 +52,7 @@ function App() {
       {
         id: Math.random(),
         name: newCharacter.name,
+        elementC: newCharacter.elementC,
         img: newCharacter.img
       }
     ]
@@ -89,7 +100,7 @@ function App() {
 
     setCharacters(characterCopy);
   }
-
+  console.log(CharactersElems);
   
   
   return (
@@ -98,7 +109,7 @@ function App() {
       <div className="App">
         <header className="App-header">
           <nav className="nav">
-          <a href="https://www.youtube.com/"><img src={`${process.env.PUBLIC_URL}/img/navLogo.png`} className="navLogo"></img></a>
+          <RouterLink to="/home"><img src={`${process.env.PUBLIC_URL}/img/navLogo.png`} className="navLogo"></img></RouterLink>
             <Link
                   text="PERSONAJES"
                   url="/personajesList"
@@ -113,33 +124,138 @@ function App() {
             />
              <Link
                   text="FORM"
-                  url="/form"
+                  url="/characterForm"
             />
             <img src={`${process.env.PUBLIC_URL}/img/userIcon.png`} className="userIcon"></img>
+            
           </nav>
 
-        <Route path="/form">
-          <CharacterForm 
-          editId={editId}
-          type={formType}
-          onCreate={handleCreate}
-          onEdit={handleEdit}
-          />  
+        <Route path="/home">
+          <img src={`${process.env.PUBLIC_URL}/img/bannerImg.jpg`} className="banner"></img>
+
+          <article className="info">
+            <MainTitle
+            text="PERSONAJES"
+            />
+
+            <ElementTitle
+              text="PYRO"
+              img="pyroIcon.png"
+           />
+
+            <article className="componentsDiv">
+              {CharactersElems.map ((elem) =>{
+                return <Character 
+                key={elem.id}
+                id={elem.id} 
+                name={elem.name} 
+                elementC={elem.elementC}
+                img={`${process.env.PUBLIC_URL}/img/${elem.img}`}
+                onDelete={handleDelete}
+                onEdit={handleBeginEdit}
+                />
+              })} 
+              </article>
+          </article>  
+        </Route>
+
+        <Route path="/characterForm">
+          <article className="info">
+
+            <div className="formTitle">
+              <h2 className="titleForm">{formType==="create"? "FORMULARIO": "EDITA EL PERSONAJE"}</h2>
+              
+              {(formType==="create") &&
+                  <div className="formTypes">
+                    <Link
+                      text="PERSONAJES"
+                      url="/characterForm"
+                    />
+                    <Link
+                      text="ARMAS"
+                      url="/weaponForm"
+                    />
+                    <Link
+                      text="ARTEFACTOS"
+                      url="/artifactsForm"
+                    />
+                  </div>
+                }
+            </div>
+
+            <CharacterForm 
+            editId={editId}
+            type={formType}
+            onCreate={handleCreate}
+            onEdit={handleEdit}
+            />  
+          </article>
         </Route>
 
         <Route path="/personajesList">
-        <article className="content">
-        {CharactersElems.map ((elem) =>{
-          return <Character 
-          key={elem.id}
-          id={elem.id} 
-          name={elem.name} 
-          img={elem.img}
-          onDelete={handleDelete}
-          onEdit={handleBeginEdit}
-          />
-        })} 
-        </article>
+        
+          <section className="charactersList">
+            <ElementTitle
+                text="PYRO"
+                img="pyroIcon.png"
+            />
+
+            <article className="componentsDiv">
+              {CharactersElems.map ((elem) =>{
+                return <Character 
+                key={elem.id}
+                id={elem.id} 
+                name={elem.name} 
+                elementC={elem.elementC}
+                img={`${process.env.PUBLIC_URL}/img/${elem.img}`}
+                onDelete={handleDelete}
+                onEdit={handleBeginEdit}
+                />
+              })} 
+            </article>
+          </section>
+
+       
+        </Route>
+
+
+        <Route path="/perfilPersonaje">
+
+        </Route>
+
+        
+        <Route path="/armas">
+          <article className="info">
+            <MainTitle
+              text="ARMAS"
+            />
+            <h2 className="titlesSections normalTitles">MANDOBLE</h2>
+
+            <article className="componentsDiv">
+            <Weapon
+            id={0}
+            name={'Lápida del lobo'}
+            img= {`${process.env.PUBLIC_URL}/img/lapidaLobo.png`}
+            />
+            </article>
+          </article>
+
+        </Route>
+    
+        <Route path="/artefactos">
+          <article className="info">
+              <MainTitle
+                text="ARTEFACTOS"
+              />
+
+              <article className="componentsDiv">
+              <Artifacts
+              id={0}
+              name={'Bruja Carmesí en Llamas'}
+              img= {`${process.env.PUBLIC_URL}/img/brujaCarmesi.png`}
+              />
+              </article>
+            </article>
         </Route>
         
           

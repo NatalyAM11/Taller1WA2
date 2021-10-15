@@ -8,7 +8,7 @@ interface CharacterFormProps{
     //onCreate: (newCharacter: CharacterProps)=>void;
     editId: number | null;
     type: "create" | "edit";
-    onCreate: (newCharacter: {name:string, img:string})=>void;
+    onCreate: (newCharacter: {name:string, elementC: string, img:string})=>void;
     onEdit: (id:number, editCharacter:{name:string})=>void;
 }
 
@@ -21,29 +21,93 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
 
     const [name, setName] = React.useState(' ');
     const handleNameChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
-        setName(event.target.value)
+        setName(event.target.value);
+    }
+
+    const [elementC, setElementC] = React.useState(' ');
+    const handleElementCChange: React.ChangeEventHandler<HTMLSelectElement> = (event)=>{
+        console.log(event.target.value)
+        setElementC(event.target.value)
     }
 
     const [mainImg, setMainImg ]= React.useState(' ');
-    const handleMainImgChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+    const handleMainImgChange: React.ChangeEventHandler<HTMLInputElement> = (event)=>{
         setMainImg(event.target.value)
     }
 
+    const [perfil, setPerfil ]= React.useState(' ');
+    const handlePerfilChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event)=>{
+        setPerfil(event.target.value)
+    }
+
+    const [rol, setRol ]= React.useState(' ');
+    const handleRolChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+        setRol(event.target.value)
+    }
+
+    const [arma, setArma ]= React.useState(' ');
+    const handleArmaChange: React.ChangeEventHandler<HTMLSelectElement> =(event)=>{
+        setArma(event.target.value)
+    }
+
+    const [constellation, setConstellation ]= React.useState(' ');
+    const handleConstellationChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+        setConstellation(event.target.value)
+    }
+
+    const [artifacts, setArtifacts ]= React.useState(' ');
+    const handleArtifactsChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+        setArtifacts(event.target.value)
+    }
+
+    const [trailerURL, setTrailerURL ]= React.useState(' ');
+    const handleTrailerURLChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+        setTrailerURL(event.target.value)
+    }
+
+    const [arena, setArena]= React.useState(' ');
+    const handleArenaChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+        setArena(event.target.value)
+    }
+
+    const [caliz, setCaliz ]= React.useState(' ');
+    const handleCalizChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+        setCaliz(event.target.value)
+    }
+
+    const [tiara, setTiara ]= React.useState(' ');
+    const handleTiaraChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+        setTiara(event.target.value)
+    }
 
     const nameValid= name.length>1;
-    const mainImgValid= mainImg.length>10;
+    const mainImgValid= mainImg.length>5;
+    const elementCValid= elementC.length>1;
+    const perfilValid= perfil.length>10;
+    const rolValid= rol.length>2;
+    const armaValid= arma.length>1;
+    const constellationValid=constellation.length>1;
+    const artifactsValid=artifacts.length>1;
+    const trailerURLValid=trailerURL.length>1;
+    const arenaValid=arena.length>1;
+    const calizValid=caliz.length>1;
+    const tiaraValid=trailerURL.length>1;
     
     const handleSubmit: React.FormEventHandler<HTMLFormElement> =(event)=>{
         event.preventDefault();
 
         setFormSubmitted(true);
 
-        if(type==="create" && nameValid && mainImgValid){
+        if(type==="create" && nameValid && mainImgValid && elementCValid 
+        && perfilValid && rolValid && armaValid && constellationValid
+        && artifactsValid && trailerURLValid && arenaValid && calizValid
+        && tiaraValid){
             console.log('valid')
 
             onCreate({
                 name: name,
-                img: mainImg
+                elementC: elementC,
+                img: mainImg,
             })
 
             //vacio los inputs
@@ -65,18 +129,29 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
         }
     }
 
-    
+    /*onChange={handleElementCChange} */
     return <form className="characterForm" onSubmit={handleSubmit}>
-
-
-
-        <h3 className="titleForm">{type==="create"? "CREA UN PERSONAJE NUEVO": "EDITA EL PERSONAJE"}</h3>
 
         <label>
             Nombre
             <input type="text" name="name" onChange={handleNameChange} value={name}></input>
             {(formSubmitted && !nameValid) &&
                 <p className="CharacterForm_error">Debes escribir el nombre del personaje</p>
+            }
+            
+        </label>
+
+        <label>
+            Elemento
+            <select name="elementC" value={elementC} onChange={handleElementCChange} >
+                <option value=" ">ELIGE UN ELEMENTO</option>
+                <option value="pyro">PYRO</option>
+                <option value="electro">ELECTRO</option>
+                <option value="cryo">CRYO</option>
+                <option value="anemo">ANEMO</option>
+            </select>
+            {(formSubmitted && !elementCValid) &&
+                <p className="CharacterForm_error">Debes escoger el elemento del personaje</p>
             }
             
         </label>
@@ -91,40 +166,83 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
 
         <label>
             Perfil
-            <textarea className="largeInput"></textarea>
+            <textarea className="largeInput" name="perfil" onChange={handlePerfilChange} value={perfil}></textarea>
+            {(formSubmitted && !perfilValid) &&
+                <p className="CharacterForm_error">Debes escribir algo en el perfil del personaje</p>
+            }
         </label>
         
 
         <label>
             Rol
-            <input type="text"></input>
+            <input type="text" name="rol" onChange={handleRolChange} value={rol}></input>
+            {(formSubmitted && !rolValid) &&
+                <p className="CharacterForm_error">Debes escribir el rol del personaje</p>
+            }
         </label>
 
         <label>
             Arma
-            <input type="text"></input>
+            <select name="arma" value={arma} onChange={handleArmaChange} >
+                <option value=" ">ELIGE UN ARMA</option>
+                <option value="arco">ARCO</option>
+                <option value="mandoble">MANDOBLE</option>
+                <option value="espada">ESPADA</option>
+                <option value="lanza">LANZA</option>
+            </select>
+            {(formSubmitted && !armaValid) &&
+                <p className="CharacterForm_error">Debes escoger el arma que usa el personaje</p>
+            }
         </label>
 
         <label>
             Constelación
-            <input type="text"></input>
+            <input type="text" name="constalletion" onChange={handleConstellationChange} value={constellation}></input>
+            {(formSubmitted && !constellationValid) &&
+                <p className="CharacterForm_error">Debes escribir el nombre de la constelación del personaje</p>
+            }
+        </label>
+
+        <label>
+            Set de artefactos
+            <input type="text" name="setArtefacts" onChange={handleArtifactsChange} value={artifacts}></input>
+            {(formSubmitted && !artifactsValid) &&
+                <p className="CharacterForm_error">Debes escribir el set de artefactos del personaje</p>
+            }
+        </label>
+
+        <label>
+            URL Trailer
+            <input type="text" name="urlTrailer" onChange={handleTrailerURLChange} value={trailerURL}></input>
+            {(formSubmitted && !trailerURLValid) &&
+                <p className="CharacterForm_error">Debes escribir la URL del trailer del personaje</p>
+            }
         </label>
 
         <h4 className="subtitleForm">Stats</h4>
 
         <label>
             Arena
-            <input type="text"></input>
+            <input type="text" name="arena" onChange={handleArenaChange} value={arena}></input>
+            {(formSubmitted && !arenaValid) &&
+                <p className="CharacterForm_error">Debes escribir el stat de la arena</p>
+            }
         </label>
 
         <label>
             Cáliz
-            <input type="text"></input>
+            <input type="text" name="caliz" onChange={handleCalizChange} value={caliz}></input>
+            {(formSubmitted && !calizValid) &&
+                <p className="CharacterForm_error">Debes escribir el stat del cáliz</p>
+            }
         </label>
 
         <label>
             Tiara
-            <input type="text"></input>
+            <input type="text" name="tiara" onChange={handleTiaraChange} value={tiara}></input>
+            {(formSubmitted && !tiaraValid) &&
+                <p className="CharacterForm_error">Debes escribir el stat de la tiara</p>
+            }
         </label>
 
         <button className="button">{type==="create"? "CREAR": "GUARDAR CAMBIOS"}</button>

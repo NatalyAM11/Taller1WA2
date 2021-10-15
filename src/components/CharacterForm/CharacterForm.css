@@ -2,7 +2,7 @@
 
 .characterForm{
     width: 100%;
-    padding-top: 160px;
+    padding-top: 60px;
     padding-left: 40px;
     box-sizing: border-box;
 }
@@ -15,7 +15,7 @@
     margin-top: 25px;
 }
 
-.characterForm input{
+.characterForm input {
     width: 100%;
     display: block;
     background: rgba(255, 255, 255, 0.164);
@@ -23,6 +23,19 @@
     border-radius: 5px;
     border-color: white;
     color: white;
+    margin-top: 5px;
+    font-size: 16px;
+    font-family: Raleway;
+}
+
+.characterForm select{
+    width: 105%;
+    display: block;
+    background: rgba(255, 255, 255, 0.164);
+    padding: 10px 10px;
+    border-radius: 5px;
+    border-color: white;
+    color: rgb(160, 160, 160);
     margin-top: 5px;
     font-size: 16px;
     font-family: Raleway;
