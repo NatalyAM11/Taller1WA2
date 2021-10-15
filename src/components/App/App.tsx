@@ -40,6 +40,13 @@ function App() {
       elementC: "pyro",
       img: "diluc.png",
     },
+
+    {
+      id: Math.random(),
+      name: "BENNET",
+      elementC: "pyro",
+      img: "bennet.png",
+    },
   ])
 
 
