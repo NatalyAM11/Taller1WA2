@@ -8,10 +8,18 @@ flex-direction: column;
 /*background-color: blue;*/
 }
 
+.onlycharacter{
+    width: 100%;
+}
+
 .characterName{
     width: 100%;
     margin: 0px;
     font-size: 35px;
     display: flex;
     justify-content: right;    
+}
+
+.characterImg{
+    width: 100%;
 }

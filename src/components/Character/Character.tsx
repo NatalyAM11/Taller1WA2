@@ -8,8 +8,8 @@ export interface CharacterProps{
     name:string,
     elementC:string,
     img:string,
-    onDelete: (id:number)=>void
-    onEdit: (id:number)=>void
+    onDelete?: (id:number)=>void
+    onEdit?: (id:number)=>void
 }
 
 
@@ -18,20 +18,36 @@ export const Character: React.FC<CharacterProps> = ({id, name, elementC, img, on
       const history=useHistory();
 
       const handleDelete: React.MouseEventHandler<HTMLButtonElement> = ()=>{
-            history.push('/perfilPersonaje')
-            onDelete(id);
+            history.push('/perfilPersonaje');
+
+            if(onDelete){
+                  onDelete(id);
+            }
+      
       }
 
       const handleEdit: React.MouseEventHandler<HTMLButtonElement> = ()=>{
-            history.push('/characterForm')
-            onEdit(id);
+            history.push('/characterForm');
+
+            if(onEdit){
+                   onEdit(id);
+            }
+       
       }
+
+      const handleView: React.MouseEventHandler<HTMLButtonElement> = ()=>{
+            history.push(`/characterDetails/${id}`)
+      }
+
     
       return (<div className="character">
+            <div className="onlyCharacter">
             <h2 className="characterName titlesAllComp">{name}</h2>
             <img className="characterImg" src={img}></img>
-            <button className="componentsButton" onClick={handleEdit}>EDIT</button>
-            <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>
+            </div>
+            <button className="componentsButton" onClick={handleView}>DETAILS</button>
+            {onEdit && <button className="componentsButton" onClick={handleEdit}>EDIT</button>}
+            {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>}
       </div>);
 
 }
