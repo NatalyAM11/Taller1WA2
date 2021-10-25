@@ -1,0 +1,13 @@
+.TitleSectionC{
+    width: 8%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /*background-color: blueviolet;*/
+    font-family: Anton;
+    font-weight:100
+}
+
+.imgTitleSectionC{
+    height: 100%;
+}

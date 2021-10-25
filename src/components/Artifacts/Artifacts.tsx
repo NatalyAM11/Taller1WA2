@@ -5,12 +5,12 @@ import { useHistory } from 'react-router';
 export interface ArtifactsProps{
     id: number,
     name:string,
-    img:string,
+    mainImg:string,
     onDelete?: (id:number)=>void
     onEdit?: (id:number)=>void
 }
 
-export const Weapon: React.FC<ArtifactsProps> = ({id, name, img, onDelete, onEdit})=>{
+export const Weapon: React.FC<ArtifactsProps> = ({id, name, mainImg, onDelete, onEdit})=>{
 
     const history=useHistory();
 
@@ -26,7 +26,7 @@ export const Weapon: React.FC<ArtifactsProps> = ({id, name, img, onDelete, onEdi
   
     return (<div className="artifacts">
           <h2 className="artifactName titlesAllComp">{name}</h2>
-          <img className="artifactImg" src={img}></img>
+          <img className="artifactImg" src={mainImg}></img>
           <button className="componentsButton" onClick={handleEdit}>EDIT</button>
           <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>
     </div>);

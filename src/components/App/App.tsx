@@ -13,6 +13,7 @@ import Artifacts from '../Artifacts/Artifacts';
 import Error404 from '../Error404/Error404';
 import CharacterDetails from '../CharacterDetails/CharacterDetails';
 import { CharacterElemObj } from '../types/CharacterElemObj';
+import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
 
 
 /*type CharacterElemObj= CharacterProps &{
@@ -34,7 +35,11 @@ function App() {
       id: Math.random(),
       name: "DILUC",
       elementC: "pyro",
-      img: "diluc.png",
+      img: "diluc2.png",
+      history:`Diluc Ragnvindr es el dueño actual de Viñedo del Amanecer y un noble de alta estima en la sociedad de Mondstadt. Aunque parece apático sobre los asuntos de la ciudad, la protege de noche como el rumoreado Héroe Oscuro.
+      Como el hombre más rico de Mondstadt, Diluc siempre muestra su lado más exquisito. Sin embargo, su verdadera naturaleza es la de un guerrero con una gran determinación. Protege a Mondstadt con todas sus fuerzas en todo momento.`,
+      role: "DPS",
+      constelacion: "Noctua",
       artifacts: []
     },
 
@@ -42,14 +47,17 @@ function App() {
       id: Math.random(),
       name: "BENNET",
       elementC: "pyro",
-      img: "bennet.png",
+      img: "bennet2.png",
+      history:'Diluc Ragnvindr es el dueño actual de Viñedo del Amanecer y un noble de alta estima en la sociedad de Mondstadt. Aunque parece apático sobre los asuntos de la ciudad, la protege de noche como el rumoreado Héroe Oscuro.Como el hombre más rico de Mondstadt, Diluc siempre muestra su lado más exquisito. Sin embargo, su verdadera naturaleza es la de un guerrero con una gran determinación. Protege a Mondstadt con todas sus fuerzas en todo momento.',
+      role: "BURST SUPPORT",
+      constelacion: "Rota Calamitas",
       artifacts: []
     },
   ])
 
 
   //const handleCreate=(newCharacter: CharacterProps)=>{
-  const handleCreate = (newCharacter: { name: string, elementC: string, img: string }) => {
+  const handleCreate = (newCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string}) => {
     console.log('Se creo', newCharacter)
 
     const newArrayCharacter = [
@@ -59,7 +67,16 @@ function App() {
         name: newCharacter.name,
         elementC: newCharacter.elementC,
         img: newCharacter.img,
-        artifacts: []
+        role: newCharacter.role,
+        constelacion: newCharacter.constelacion,
+        history: newCharacter.history,
+        artifacts: [
+          {
+            id: 0,
+            name:"Bruja Carmesi",
+            mainImg:"brujaCarmesi.png",
+          }
+        ]
       }
     ]
 
@@ -106,7 +123,30 @@ function App() {
 
     setCharacters(characterCopy);
   }
-  console.log(CharactersElems);
+  //console.log(CharactersElems);
+
+
+  //Artefactos
+  const handleCreateArtifact = (characterId: number, newArtifact: ArtifactsElemObj) => {
+
+    const characterCopy = CharactersElems.slice();
+    const editIndex = CharactersElems.findIndex((elem) => {
+      if (elem.id === characterId) {
+        return true;
+      }
+      return false
+    });
+
+    characterCopy[editIndex] = {
+      ...CharactersElems[editIndex],
+      artifacts:[
+        ...CharactersElems[editIndex].artifacts,
+        newArtifact
+      ]
+    }
+
+    setCharacters(characterCopy);
+  }
 
 
   return (
@@ -159,6 +199,9 @@ function App() {
                       name={elem.name}
                       elementC={elem.elementC}
                       img={`${process.env.PUBLIC_URL}/img/${elem.img}`}
+                      history= {elem.history}
+                      role={elem.role}
+                      constelacion={elem.constelacion}
                       onDelete={handleDelete}
                       onEdit={handleBeginEdit}
                     />
@@ -216,6 +259,9 @@ function App() {
                       name={elem.name}
                       elementC={elem.elementC}
                       img={`${process.env.PUBLIC_URL}/img/${elem.img}`}
+                      history={elem.history}
+                      role={elem.role}
+                      constelacion={elem.constelacion}
                       onDelete={handleDelete}
                       onEdit={handleBeginEdit}
                     />
@@ -228,6 +274,7 @@ function App() {
             <Route path="/characterDetails/:id">
               <CharacterDetails
                 list={CharactersElems}
+                onCreateArtifact= {handleCreateArtifact}
               /> 
             </Route>
 
@@ -260,7 +307,7 @@ function App() {
                   <Artifacts
                     id={0}
                     name={'Bruja Carmesí en Llamas'}
-                    img={`${process.env.PUBLIC_URL}/img/brujaCarmesi.png`}
+                    mainImg={`${process.env.PUBLIC_URL}/img/brujaCarmesi.png`}
                   />
                 </article>
               </article>

@@ -8,7 +8,7 @@ interface CharacterFormProps{
     //onCreate: (newCharacter: CharacterProps)=>void;
     editId: number | null;
     type: "create" | "edit";
-    onCreate: (newCharacter: {name:string, elementC: string, img:string})=>void;
+    onCreate: (newCharacter: {name:string, elementC: string, img:string, history: string, role: string, constelacion: string})=>void;
     onEdit: (id:number, editCharacter:{name:string})=>void;
 }
 
@@ -108,6 +108,9 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
                 name: name,
                 elementC: elementC,
                 img: mainImg,
+                history: perfil,
+                role: rol,
+                constelacion: constellation,
             })
 
             //vacio los inputs

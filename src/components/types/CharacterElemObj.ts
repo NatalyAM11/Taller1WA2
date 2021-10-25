@@ -6,6 +6,9 @@ export type CharacterElemObj = {
     elementC: string,
     img: string,
     id: number;
+    history: string;
+    role: string;
+    constelacion: string;
     artifacts: ArtifactsElemObj[]
     //weapon: WeaponElemObj;
   }

@@ -1,3 +1,45 @@
 .characterDetails{
-    padding: 150px 150px;
+    width: 100%;
+    padding: 150px 80px;
+    box-sizing: border-box;
+    
+}
+
+.biographyDiv{
+    width: 33%;
+    margin-right: 19px;
+}
+
+.biographyName{  
+    font-family: Volkhov;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 45px;
+    /*background-image: ur"l("../public\img\diluc.png");*/
+   /* background-image: url("/public/img/diluc2.png");*/
+}
+
+.biographyText{
+    display: flex;
+    text-align: left;
+    font-family: Raleway;
+    margin-top: 15px;
+}
+
+.mainInfoCharacter{
+    display: flex;
+    justify-content:space-evenly;
+    margin-top: 45px;
+    margin-bottom: 160px;
+}
+
+.details{
+    width: 24%;
+    background-color: #292929;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 14px 0px;
+    box-sizing: border-box;
 }

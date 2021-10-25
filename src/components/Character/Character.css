@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Volkhov&display=swap');
 
 .character{
-width: 27%;
+width: 23%;
 height: 500px;
 display: flex;
 flex-direction: column;
+align-items: center;
 /*background-color: blue;*/
 }
 

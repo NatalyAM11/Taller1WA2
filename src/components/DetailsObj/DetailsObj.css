@@ -1,0 +1,17 @@
+.DetailsObj{
+    text-align: left;
+    padding-left: 28px;
+}
+
+.DetailsObj--title{
+    font-family: Raleway;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.DetailsObj--text{
+    
+    font-family: Raleway;
+    font-weight: normal;
+}

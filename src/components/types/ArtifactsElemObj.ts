@@ -1,3 +1,5 @@
 export type ArtifactsElemObj = {
-    name: string
+    id:number;
+    name: string;
+    mainImg:string
 }
