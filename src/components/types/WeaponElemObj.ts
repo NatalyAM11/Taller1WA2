@@ -1,7 +1,9 @@
 export type WeaponElemObj = {
+    id: number
     name:string;
-    /*stat:string;
-    efectoPasivo: string;
-    tipo: string;
-    description:string;*/
+    mainImg:string;
+    history: string;
+    type: string;
+    stat: string;
+    passive: string;
 }

@@ -43,3 +43,11 @@
     padding: 14px 0px;
     box-sizing: border-box;
 }
+
+.ArtifactDiv{
+    width: 100%;
+    padding: 0px 45px;
+    box-sizing: border-box;
+    justify-content: space-evenly;
+    margin-top: 80px;
+}

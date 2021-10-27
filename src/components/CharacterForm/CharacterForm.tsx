@@ -55,29 +55,9 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
         setConstellation(event.target.value)
     }
 
-    const [artifacts, setArtifacts ]= React.useState(' ');
-    const handleArtifactsChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
-        setArtifacts(event.target.value)
-    }
-
     const [trailerURL, setTrailerURL ]= React.useState(' ');
     const handleTrailerURLChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
         setTrailerURL(event.target.value)
-    }
-
-    const [arena, setArena]= React.useState(' ');
-    const handleArenaChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
-        setArena(event.target.value)
-    }
-
-    const [caliz, setCaliz ]= React.useState(' ');
-    const handleCalizChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
-        setCaliz(event.target.value)
-    }
-
-    const [tiara, setTiara ]= React.useState(' ');
-    const handleTiaraChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
-        setTiara(event.target.value)
     }
 
     const nameValid= name.length>1;
@@ -87,11 +67,7 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
     const rolValid= rol.length>2;
     const armaValid= arma.length>1;
     const constellationValid=constellation.length>1;
-    const artifactsValid=artifacts.length>1;
     const trailerURLValid=trailerURL.length>1;
-    const arenaValid=arena.length>1;
-    const calizValid=caliz.length>1;
-    const tiaraValid=trailerURL.length>1;
     
     const handleSubmit: React.FormEventHandler<HTMLFormElement> =(event)=>{
         event.preventDefault();
@@ -100,8 +76,7 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
 
         if(type==="create" && nameValid && mainImgValid && elementCValid 
         && perfilValid && rolValid && armaValid && constellationValid
-        && artifactsValid && trailerURLValid && arenaValid && calizValid
-        && tiaraValid){
+        && trailerURLValid){
             console.log('valid')
 
             onCreate({
@@ -206,13 +181,6 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
             }
         </label>
 
-        <label>
-            Set de artefactos
-            <input type="text" name="setArtefacts" onChange={handleArtifactsChange} value={artifacts}></input>
-            {(formSubmitted && !artifactsValid) &&
-                <p className="CharacterForm_error">Debes escribir el set de artefactos del personaje</p>
-            }
-        </label>
 
         <label>
             URL Trailer
@@ -222,32 +190,7 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
             }
         </label>
 
-        <h4 className="subtitleForm">Stats</h4>
-
-        <label>
-            Arena
-            <input type="text" name="arena" onChange={handleArenaChange} value={arena}></input>
-            {(formSubmitted && !arenaValid) &&
-                <p className="CharacterForm_error">Debes escribir el stat de la arena</p>
-            }
-        </label>
-
-        <label>
-            Cáliz
-            <input type="text" name="caliz" onChange={handleCalizChange} value={caliz}></input>
-            {(formSubmitted && !calizValid) &&
-                <p className="CharacterForm_error">Debes escribir el stat del cáliz</p>
-            }
-        </label>
-
-        <label>
-            Tiara
-            <input type="text" name="tiara" onChange={handleTiaraChange} value={tiara}></input>
-            {(formSubmitted && !tiaraValid) &&
-                <p className="CharacterForm_error">Debes escribir el stat de la tiara</p>
-            }
-        </label>
-
+    
         <button className="button">{type==="create"? "CREAR": "GUARDAR CAMBIOS"}</button>
     </form>;
 

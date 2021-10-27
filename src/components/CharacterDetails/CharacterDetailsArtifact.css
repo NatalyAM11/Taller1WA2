@@ -1,0 +1,32 @@
+.ArtifactsCharacter{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mainInfoArtifact{
+    width: 50%;
+    display: flex;
+    text-align: left;
+}
+
+.mainInfoArtifactImg{
+    height: 50%;
+}
+
+.mainInfoArtifact--textDiv{
+    width: 50%;
+    margin-left: 20px;
+}
+
+.mainInfoArtifact--text{
+    font-family: Volkhov;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.detailsArtifacts{
+    width: 40%;
+    background-color: #292929;
+    border-radius: 15px;
+}

@@ -1,0 +1,23 @@
+.statsArtifacts{
+    display: flex;
+    margin: 25px 25px;
+}
+
+.infoStats{
+    margin-left: 15px;
+    text-align: left;
+}
+
+.infoStatsTitle{
+    font-family: Raleway;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.infoStatsText{
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    margin-top: 5px;
+}

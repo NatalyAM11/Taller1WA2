@@ -7,7 +7,9 @@
     box-sizing: border-box;
 }
 
-.characterForm label{
+.characterForm label,
+.artifactForm label,
+.weaponForm label{
     width: 35%;
     font-size: 18px;
     font-family: Raleway;
@@ -15,7 +17,9 @@
     margin-top: 25px;
 }
 
-.characterForm input {
+.characterForm input,
+.artifactForm input,
+.weaponForm input{
     width: 100%;
     display: block;
     background: rgba(255, 255, 255, 0.164);

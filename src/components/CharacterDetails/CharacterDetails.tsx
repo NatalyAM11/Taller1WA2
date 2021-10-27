@@ -7,52 +7,77 @@ import { TitleSection } from '../TitleSection/TitleSection';
 import CharacterDetailsArtifactsForm from './CharacterDetailsArtifactsForm';
 import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
 import { DetailsObj } from '../DetailsObj/DetailsObj';
+import { CharacterDetailsArtifact } from './CharacterDetailsArtifact';
+import { CharacterDetailsWeaponForm } from './CharacterDetailsWeaponForm';
+import { WeaponElemObj } from '../types/WeaponElemObj';
 
 
-interface CharacterDetailsProps{
- list: CharacterElemObj[];
- onCreateArtifact: (characterId: number, newArtifact: ArtifactsElemObj) =>void
+interface CharacterDetailsProps {
+    list: CharacterElemObj[];
+    onCreateArtifact: (characterId: number, newArtifact: ArtifactsElemObj) => void
+    onCreateWeapon: (characterId: number, newWeapon: WeaponElemObj) => void
 }
 
 
 
-export const CharacterDetails: React.FC<CharacterDetailsProps> = ({list, onCreateArtifact})=>{
-    const { id: idString } = useParams<{ id: string}>();
+export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCreateArtifact, onCreateWeapon }) => {
+    const { id: idString } = useParams<{ id: string }>();
     const id = parseFloat(idString);
+    let nameArtifact, florArtifact, arenaArtifact, copaArtifact,tiaraArtifact;
+    let nameWeapon;
 
-    
+
     //console.log(id)
 
-    const c = list.find((elem) =>{
-        if(elem.id === id){
+    const c = list.find((elem) => {
+        if (elem.id === id) {
             return true;
-        } else{
+        } else {
             return false;
         }
     })
 
-    if(!c){
-        return <Redirect to="/Error404"/>
+    if (!c) {
+        return <Redirect to="/Error404" />
     }
 
-    const{ name, img, history, role, artifacts, constelacion}= c;
+    //Character data
+    const { name, img, history, role, artifacts, constelacion, weapon } = c;
 
-    const handleCreateArtifact = (newArtifact: ArtifactsElemObj) =>{
-        onCreateArtifact(id, newArtifact )
+    //artifacts data
+    artifacts.forEach((a)=>{
+        nameArtifact =a.name;
+        florArtifact=a.mainImg;
+        arenaArtifact=a.arena;
+        copaArtifact=a.copa;
+        tiaraArtifact=a.tiara;
+    })
+
+
+    const handleCreateArtifact = (newArtifact: ArtifactsElemObj) => {
+        onCreateArtifact(id, newArtifact)
     }
-   
+
+
+    //weapon data
+    const handleCreateWeapon = (newWeapon: WeaponElemObj) => {
+        onCreateWeapon (id, newWeapon)
+    }
+
+    console.log(nameArtifact)
+
 
     return (<div className="characterDetails">
         <TitleSection
-        text = "PERFIL"
+            text="PERFIL"
         />
 
         <div className="mainInfoCharacter">
             <img src={`${process.env.PUBLIC_URL}/img/${img}`}></img>
 
             <div className="biographyDiv">
-            <h2 className="biographyName">{name}</h2>
-            <p className="biographyText">{history}</p>
+                <h2 className="biographyName">{name}</h2>
+                <p className="biographyText">{history}</p>
             </div>
 
             <div className="details">
@@ -66,7 +91,7 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({list, onCreat
                 />
                 <DetailsObj
                     title={"Arma"}
-                    
+
                 />
                 <DetailsObj
                     title={"Constelación"}
@@ -77,35 +102,50 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({list, onCreat
                     text={"Mondstadt"}
                 />
 
-            </div>    
-               
+            </div>
+
         </div>
 
         <div className="WeaponDiv">
             <TitleSection
-                text = "ARMA"
+                text="ARMA"
+            />
+
+            <CharacterDetailsWeaponForm
+                onCreate={handleCreateWeapon}
             />
         </div>
 
-        
+
         <div className="ArtifactDiv">
             <TitleSection
-                text = "ARTEFACTOS"
+                text="ARTEFACTOS"
             />
 
-        <h1>{artifacts.length}</h1>
-        <CharacterDetailsArtifactsForm
+        {artifacts.length<1 &&
+            <CharacterDetailsArtifactsForm
                 onCreate={handleCreateArtifact}
             />
+        }
+        <h1>{artifacts.length}</h1>
+
+        {(nameArtifact &&  florArtifact && arenaArtifact && copaArtifact && tiaraArtifact) &&
+        <CharacterDetailsArtifact
+            name={nameArtifact}
+            imgFlor={florArtifact}
+            arena={arenaArtifact}
+            copa={copaArtifact}
+            tiara={tiaraArtifact}
+        />}
         </div>
 
         <div className="TrailerDiv">
             <TitleSection
-                text = "TRAILER"
+                text="TRAILER"
             />
         </div>
 
- 
+
     </div>);
 
 }

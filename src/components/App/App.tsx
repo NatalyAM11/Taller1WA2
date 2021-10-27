@@ -14,6 +14,7 @@ import Error404 from '../Error404/Error404';
 import CharacterDetails from '../CharacterDetails/CharacterDetails';
 import { CharacterElemObj } from '../types/CharacterElemObj';
 import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
+import { WeaponElemObj } from '../types/WeaponElemObj';
 
 
 /*type CharacterElemObj= CharacterProps &{
@@ -25,9 +26,10 @@ function App() {
 
   const history = useHistory();
 
-
   const [formType, setFormType] = React.useState<'create' | 'edit'>('create');
   const [editId, setEditId] = React.useState<number | null>(null);
+
+  const [ArtifactsElems, setArtifacts] = React.useState<CharacterElemObj[]>([])
 
   //Estado del arreglo de personajes
   const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>([
@@ -36,11 +38,20 @@ function App() {
       name: "DILUC",
       elementC: "pyro",
       img: "diluc2.png",
-      history:`Diluc Ragnvindr es el dueño actual de Viñedo del Amanecer y un noble de alta estima en la sociedad de Mondstadt. Aunque parece apático sobre los asuntos de la ciudad, la protege de noche como el rumoreado Héroe Oscuro.
+      history:`Diluc Ragnvindr es el dueño actual de Viñedo del Amanecer y un noble de alta estima en la sociedad de Mondstadt. Aunque parece apático sobre los asuntos de la ciudad, la protege de noche como el rumoreado "Héroe Oscuro".
       Como el hombre más rico de Mondstadt, Diluc siempre muestra su lado más exquisito. Sin embargo, su verdadera naturaleza es la de un guerrero con una gran determinación. Protege a Mondstadt con todas sus fuerzas en todo momento.`,
       role: "DPS",
       constelacion: "Noctua",
-      artifacts: []
+      artifacts: [],
+      weapon: {
+        id:0,
+        name:"",
+        mainImg:"",
+        history: "",
+        type: "",
+        stat: "",
+        passive: "",
+      }
     },
 
     {
@@ -48,10 +59,19 @@ function App() {
       name: "BENNET",
       elementC: "pyro",
       img: "bennet2.png",
-      history:'Diluc Ragnvindr es el dueño actual de Viñedo del Amanecer y un noble de alta estima en la sociedad de Mondstadt. Aunque parece apático sobre los asuntos de la ciudad, la protege de noche como el rumoreado Héroe Oscuro.Como el hombre más rico de Mondstadt, Diluc siempre muestra su lado más exquisito. Sin embargo, su verdadera naturaleza es la de un guerrero con una gran determinación. Protege a Mondstadt con todas sus fuerzas en todo momento.',
+      history:'Un huérfano descubierto por un anciano aventurero cuando era un bebé, Bennett se crio en el Gremio de Aventureros de Mondstadt. Él es el único miembro de la "Brigada de Benny", ya que todos los demás dejaron el equipo después de experimentar la desgracia constante que lo sigue.',
       role: "BURST SUPPORT",
       constelacion: "Rota Calamitas",
-      artifacts: []
+      artifacts: [],
+      weapon: {
+        id:0,
+        name:"",
+        mainImg:"",
+        history: "",
+        type: "",
+        stat: "",
+        passive: "",
+      }
     },
   ])
 
@@ -75,8 +95,20 @@ function App() {
             id: 0,
             name:"Bruja Carmesi",
             mainImg:"brujaCarmesi.png",
+            arena:"ATK%",
+            copa:"PYRO CMG Bonus",
+            tiara:"Crit Rate / DMG",
           }
-        ]
+        ],
+        weapon: {
+          id:0,
+          name:"",
+          mainImg:"",
+          history: "",
+          type: "",
+          stat: "",
+          passive: "",
+        }
       }
     ]
 
@@ -146,7 +178,32 @@ function App() {
     }
 
     setCharacters(characterCopy);
+
+    //console.log(CharactersElems.artifacts)
   }
+
+
+   //Artefactos
+   const handleCreateWeapon = (characterId: number, newWeapon: WeaponElemObj) => {
+
+    const characterCopy = CharactersElems.slice();
+    const editIndex = CharactersElems.findIndex((elem) => {
+      if (elem.id === characterId) {
+        return true;
+      }
+      return false
+    });
+
+    characterCopy[editIndex] = {
+      ...CharactersElems[editIndex],
+      weapon: newWeapon
+    }
+
+    setCharacters(characterCopy);
+
+    //console.log(CharactersElems.artifacts)
+  }
+
 
 
   return (
@@ -275,6 +332,7 @@ function App() {
               <CharacterDetails
                 list={CharactersElems}
                 onCreateArtifact= {handleCreateArtifact}
+                onCreateWeapon= {handleCreateWeapon}
               /> 
             </Route>
 
@@ -304,11 +362,6 @@ function App() {
                 />
 
                 <article className="componentsDiv">
-                  <Artifacts
-                    id={0}
-                    name={'Bruja Carmesí en Llamas'}
-                    mainImg={`${process.env.PUBLIC_URL}/img/brujaCarmesi.png`}
-                  />
                 </article>
               </article>
             </Route>

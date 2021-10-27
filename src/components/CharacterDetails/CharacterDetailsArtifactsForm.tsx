@@ -19,19 +19,32 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
             setName(event.target.value);
       }
 
-      const [img, setImg] = React.useState(' ');
-      const handleImgChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-            setImg(event.target.value)
-      }
-
       const [mainImg, setMainImg] = React.useState(' ');
       const handleMainImgChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
             setMainImg(event.target.value)
       }
 
+      const [arena, setArena] = React.useState(' ');
+      const handleArenaChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+            setArena(event.target.value)
+      }
+
+      const [caliz, setCaliz] = React.useState(' ');
+      const handleCalizChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+            setCaliz(event.target.value)
+      }
+
+      const [tiara, setTiara] = React.useState(' ');
+      const handleTiaraChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+            setTiara(event.target.value)
+      }
+
+
       const nameValid = name.length > 1;
       const mainImgValid = mainImg.length > 1;
-
+      const arenaValid = arena.length > 1;
+      const calizValid = caliz.length > 1;
+      const tiaraValid = tiara.length > 1;
 
 
 
@@ -41,11 +54,15 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
 
             setFormSubmitted(true);
 
-            if (nameValid) {
+            if (nameValid && mainImgValid && arenaValid && calizValid
+                  && tiaraValid) {
                   const newArtifact: ArtifactsElemObj = {
                         id: Math.random(),
                         name: name,
-                        mainImg: mainImg
+                        mainImg: mainImg,
+                        arena: arena,
+                        copa: caliz,
+                        tiara: tiara
                   }
 
                   onCreate(newArtifact)
@@ -55,18 +72,18 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
       }
 
 
-      return (<form onSubmit={handleSubmit} className="characterForm">
+      return (<form onSubmit={handleSubmit} className="artifactForm">
             <label>
-                  Nombre
+                  Nombre del set
                   <input type="text" name="name" onChange={handleNameChange} value={name}></input>
 
                   {(formSubmitted && !nameValid) &&
                         <p className="CharacterForm_error">Debes escribir el nombre del set de artefactos</p>
                   }
             </label>
-            
+
             <label>
-                  Imagen principal
+                  Imagen de la flor
                   <input type="text" name="MainImg" onChange={handleMainImgChange} value={mainImg}></input>
 
                   {(formSubmitted && !mainImg) &&
@@ -74,16 +91,33 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
                   }
             </label>
 
+            <h4 className="subtitleForm">Stats</h4>
             <label>
-                  Imagen de perfil
-                  <input type="text" name="img" onChange={handleImgChange} value={img}></input>
-
-                  {(formSubmitted && !nameValid) &&
-                        <p className="CharacterForm_error">Debes escribir el URL completo de la imagen</p>
+                  Arena
+                  <input type="text" name="arena" onChange={handleArenaChange} value={arena}></input>
+                  {(formSubmitted && !arenaValid) &&
+                        <p className="CharacterForm_error">Debes escribir el stat de la arena</p>
                   }
             </label>
 
-            <button className="button">AÑADIR CANCIÓN</button>
+            <label>
+                  Cáliz
+                  <input type="text" name="caliz" onChange={handleCalizChange} value={caliz}></input>
+                  {(formSubmitted && !calizValid) &&
+                        <p className="CharacterForm_error">Debes escribir el stat del cáliz</p>
+                  }
+            </label>
+
+            <label>
+                  Tiara
+                  <input type="text" name="tiara" onChange={handleTiaraChange} value={tiara}></input>
+                  {(formSubmitted && !tiaraValid) &&
+                        <p className="CharacterForm_error">Debes escribir el stat de la tiara</p>
+                  }
+            </label>
+
+
+            <button className="button">AÑADIR ARTEFACTO</button>
       </form>);
 
 }

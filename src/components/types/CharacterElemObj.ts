@@ -10,5 +10,5 @@ export type CharacterElemObj = {
     role: string;
     constelacion: string;
     artifacts: ArtifactsElemObj[]
-    //weapon: WeaponElemObj;
+    weapon: WeaponElemObj;
   }
