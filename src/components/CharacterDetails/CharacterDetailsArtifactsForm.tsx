@@ -5,11 +5,15 @@ import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
 
 
 export interface CharacterDetailsArtifactsFormProps {
+      type: "create" | "edit";
+      editId: number | null;
       onCreate: (newArtifact: ArtifactsElemObj) => void;
+      onEdit: (id: number, editArtifact: ArtifactsElemObj) => void;
+
 }
 
 
-export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFormProps> = ({ onCreate }) => {
+export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFormProps> = ({ type, editId, onCreate, onEdit }) => {
 
 
       const [formSubmitted, setFormSubmitted] = React.useState(false);
@@ -39,14 +43,37 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
             setTiara(event.target.value)
       }
 
+      const [twoItems, setTwoItems] = React.useState(' ');
+      const handleTwoItemsChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+            setTwoItems(event.target.value)
+      }
+
+      const [fourItems, setFourItems] = React.useState(' ');
+      const handleFourItemsChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+            setFourItems(event.target.value)
+      }
+
+      const [domain, setDomain] = React.useState(' ');
+      const handleDomainChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+            setDomain(event.target.value)
+      }
+
+      const [notes, setNotes] = React.useState(' ');
+      const handleNotesChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+            setNotes(event.target.value)
+      }
+
+
 
       const nameValid = name.length > 1;
       const mainImgValid = mainImg.length > 1;
       const arenaValid = arena.length > 1;
       const calizValid = caliz.length > 1;
       const tiaraValid = tiara.length > 1;
-
-
+      const twoItemsValid = twoItems.length > 1;
+      const fourItemsValid = fourItems.length > 10;
+      const domainValid = domain.length > 1;
+      const notesValid = notes.length > 1;
 
 
       const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
@@ -54,7 +81,7 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
 
             setFormSubmitted(true);
 
-            if (nameValid && mainImgValid && arenaValid && calizValid
+            if (type == "create" && nameValid && mainImgValid && arenaValid && calizValid
                   && tiaraValid) {
                   const newArtifact: ArtifactsElemObj = {
                         id: Math.random(),
@@ -62,17 +89,34 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
                         mainImg: mainImg,
                         arena: arena,
                         copa: caliz,
-                        tiara: tiara
+                        tiara: tiara,
+                        twoItems: twoItems,
+                        fourItems: fourItems,
+                        domain: domain,
+                        notes: notes
                   }
 
                   onCreate(newArtifact)
                   setFormSubmitted(false);
                   console.log(newArtifact)
+                  
+            } else if (type === "edit" && nameValid && mainImgValid && arenaValid && calizValid
+                  && tiaraValid) {
+
+                  if (editId !== null) {
+                        onEdit(editId, { id: editId, name: name, mainImg: mainImg, arena: arena, copa: caliz, tiara: tiara, twoItems: twoItems, fourItems: fourItems, domain: domain, notes: notes })
+                  }
+
+            } else {
+                  console.log('invalid')
             }
       }
 
 
       return (<form onSubmit={handleSubmit} className="artifactForm">
+
+            <p className="formIntro">{type === "create" ? "Agrega el set correspondiente a este personaje" : "Edita los datos del artefacto"}</p>
+
             <label>
                   Nombre del set
                   <input type="text" name="name" onChange={handleNameChange} value={name}></input>
@@ -86,8 +130,42 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
                   Imagen de la flor
                   <input type="text" name="MainImg" onChange={handleMainImgChange} value={mainImg}></input>
 
-                  {(formSubmitted && !mainImg) &&
+                  {(formSubmitted && !mainImgValid) &&
                         <p className="CharacterForm_error">Debes escribir el URL completo de la imagen</p>
+                  }
+            </label>
+
+            <label>
+                  2 piezas
+                  <input type="text" name="twoItems" onChange={handleTwoItemsChange} value={twoItems}></input>
+
+                  {(formSubmitted && !twoItemsValid) &&
+                        <p className="CharacterForm_error">Debes escribir el efecto de las 2 piezas</p>
+                  }
+            </label>
+
+            <label>
+                  4 piezas
+                  <textarea className="largeInput" name="perfil" onChange={handleFourItemsChange} value={fourItems}></textarea>
+                  {(formSubmitted && !fourItemsValid) &&
+                        <p className="CharacterForm_error">Debes escribir el efecto de las 4 piezas</p>
+                  }
+            </label>
+
+            <label>
+                  Dominio
+                  <input type="text" name="MainImg" onChange={handleDomainChange} value={domain}></input>
+
+                  {(formSubmitted && !domainValid) &&
+                        <p className="CharacterForm_error">Debes escribir el dominio del set de artefactos</p>
+                  }
+            </label>
+
+            <label>
+                  Notas del set
+                  <textarea className="largeInput" name="notes" onChange={handleNotesChange} value={notes}></textarea>
+                  {(formSubmitted && !notesValid) &&
+                        <p className="CharacterForm_error">Debes escribir algo en las notas del set</p>
                   }
             </label>
 
@@ -117,7 +195,7 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
             </label>
 
 
-            <button className="button">AÑADIR ARTEFACTO</button>
+            <button className="button">{type === "create" ? "AÑADIR ARTEFACTO" : "GUARDAR CAMBIOS"}</button>
       </form>);
 
 }

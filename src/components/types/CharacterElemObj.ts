@@ -9,6 +9,8 @@ export type CharacterElemObj = {
     history: string;
     role: string;
     constelacion: string;
+    city: string;
+    trailer: string;
     artifacts: ArtifactsElemObj[]
     weapon: WeaponElemObj;
   }

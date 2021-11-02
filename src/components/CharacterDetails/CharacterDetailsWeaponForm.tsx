@@ -27,7 +27,7 @@ export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProp
     }
 
     const [type, setType] = React.useState(' ');
-    const handleTypeChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const handleTypeChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setType(event.target.value)
     }
 
@@ -105,7 +105,14 @@ export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProp
 
         <label>
             Tipo de arma
-            <input type="text" name="type" onChange={handleTypeChange} value={type}></input>
+            Ciudad natal
+            <select name="arma" value={type} onChange={handleTypeChange} >
+                <option value=" ">ELIGE EL TIPO DE ARMA</option>
+                <option value="Mandoble">MANDOBLE</option>
+                <option value="Arco">ARCO</option>
+                <option value="Espada">ESPADA</option>
+                <option value="Lanza">LANZA</option>
+            </select>
 
             {(formSubmitted && !typeValid) &&
                 <p className="CharacterForm_error">Debes escribir el tipo de arma</p>
@@ -117,7 +124,7 @@ export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProp
             <input type="text" name="type" onChange={handleStatChange} value={stat}></input>
 
             {(formSubmitted && !statValid) &&
-                <p className="CharacterForm_error">Debes escribir el tipo de arma</p>
+                <p className="CharacterForm_error">Debes escribir el stat del arma</p>
             }
         </label>
 

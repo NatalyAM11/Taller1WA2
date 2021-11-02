@@ -1,82 +1,83 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import {CharacterProps} from "../Character/Character"
+import { CharacterProps } from "../Character/Character"
+import { CharacterElemObj } from '../types/CharacterElemObj';
 import './CharacterForm.css';
 
 //evento cuando se crea el personaje
-interface CharacterFormProps{
+interface CharacterFormProps {
     //onCreate: (newCharacter: CharacterProps)=>void;
     editId: number | null;
     type: "create" | "edit";
-    onCreate: (newCharacter: {name:string, elementC: string, img:string, history: string, role: string, constelacion: string})=>void;
-    onEdit: (id:number, editCharacter:{name:string})=>void;
+    onCreate: (newCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string }) => void;
+    onEdit: (id: number, editCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string}) => void;
 }
 
-export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCreate, onEdit})=>{
+export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCreate, onEdit }) => {
 
-    const history= useHistory();
+    const history = useHistory();
 
-    
-    const [formSubmitted, setFormSubmitted] =React.useState(false);
+
+    const [formSubmitted, setFormSubmitted] = React.useState(false);
 
     const [name, setName] = React.useState(' ');
-    const handleNameChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+    const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setName(event.target.value);
     }
 
     const [elementC, setElementC] = React.useState(' ');
-    const handleElementCChange: React.ChangeEventHandler<HTMLSelectElement> = (event)=>{
+    const handleElementCChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         console.log(event.target.value)
         setElementC(event.target.value)
     }
 
-    const [mainImg, setMainImg ]= React.useState(' ');
-    const handleMainImgChange: React.ChangeEventHandler<HTMLInputElement> = (event)=>{
+    const [mainImg, setMainImg] = React.useState(' ');
+    const handleMainImgChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setMainImg(event.target.value)
     }
 
-    const [perfil, setPerfil ]= React.useState(' ');
-    const handlePerfilChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event)=>{
+    const [perfil, setPerfil] = React.useState(' ');
+    const handlePerfilChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
         setPerfil(event.target.value)
     }
 
-    const [rol, setRol ]= React.useState(' ');
-    const handleRolChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+    const [rol, setRol] = React.useState(' ');
+    const handleRolChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setRol(event.target.value)
     }
 
-    const [arma, setArma ]= React.useState(' ');
-    const handleArmaChange: React.ChangeEventHandler<HTMLSelectElement> =(event)=>{
-        setArma(event.target.value)
+    const [city, setCity] = React.useState(' ');
+    const handleCityChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setCity(event.target.value)
     }
 
-    const [constellation, setConstellation ]= React.useState(' ');
-    const handleConstellationChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+    const [constellation, setConstellation] = React.useState(' ');
+    const handleConstellationChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setConstellation(event.target.value)
     }
 
-    const [trailerURL, setTrailerURL ]= React.useState(' ');
-    const handleTrailerURLChange: React.ChangeEventHandler<HTMLInputElement> =(event)=>{
+    const [trailerURL, setTrailerURL] = React.useState(' ');
+    const handleTrailerURLChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setTrailerURL(event.target.value)
     }
 
-    const nameValid= name.length>1;
-    const mainImgValid= mainImg.length>5;
-    const elementCValid= elementC.length>1;
-    const perfilValid= perfil.length>10;
-    const rolValid= rol.length>2;
-    const armaValid= arma.length>1;
-    const constellationValid=constellation.length>1;
-    const trailerURLValid=trailerURL.length>1;
-    
-    const handleSubmit: React.FormEventHandler<HTMLFormElement> =(event)=>{
+    const nameValid = name.length > 1;
+    const mainImgValid = mainImg.length > 5;
+    const elementCValid = elementC.length > 1;
+    const perfilValid = perfil.length > 10;
+    const rolValid = rol.length > 2;
+    const cityValid = city.length > 1;
+    const constellationValid = constellation.length > 1;
+    const trailerURLValid = trailerURL.length > 1;
+
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault();
 
         setFormSubmitted(true);
 
-        if(type==="create" && nameValid && mainImgValid && elementCValid 
-        && perfilValid && rolValid && armaValid && constellationValid
-        && trailerURLValid){
+        if (type === "create" && nameValid && mainImgValid && elementCValid
+            && perfilValid && rolValid && cityValid && constellationValid
+            && trailerURLValid) {
             console.log('valid')
 
             onCreate({
@@ -86,6 +87,8 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
                 history: perfil,
                 role: rol,
                 constelacion: constellation,
+                city: city,
+                trailer: trailerURL
             })
 
             //vacio los inputs
@@ -94,15 +97,15 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
             //tambien el form vuelve a su estado inicial
             setFormSubmitted(false);
 
-            history.push('/personajesList')
+            history.push('/home');
 
-        } else if(type==="edit" && nameValid){
+        } else if (type === "edit" && nameValid) {
 
-            if(editId!==null){
-                onEdit(editId, {name: name})
+            if (editId !== null) {
+                onEdit(editId, { name: name, elementC: elementC, img: mainImg, history:perfil, role: rol, constelacion:constellation, city:city, trailer:trailerURL})
             }
 
-        } else{
+        } else {
             console.log('invalid')
         }
     }
@@ -110,13 +113,15 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
     /*onChange={handleElementCChange} */
     return <form className="characterForm" onSubmit={handleSubmit}>
 
+        <p className="formIntro">{type === "create" ? "Agrega a los personajes que te acompañaran en tus siguientes aventuras" : "Edita los detos del personaje"}</p>
+
         <label>
             Nombre
             <input type="text" name="name" onChange={handleNameChange} value={name}></input>
             {(formSubmitted && !nameValid) &&
                 <p className="CharacterForm_error">Debes escribir el nombre del personaje</p>
             }
-            
+
         </label>
 
         <label>
@@ -131,7 +136,7 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
             {(formSubmitted && !elementCValid) &&
                 <p className="CharacterForm_error">Debes escoger el elemento del personaje</p>
             }
-            
+
         </label>
 
         <label>
@@ -149,7 +154,7 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
                 <p className="CharacterForm_error">Debes escribir algo en el perfil del personaje</p>
             }
         </label>
-        
+
 
         <label>
             Rol
@@ -160,16 +165,15 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
         </label>
 
         <label>
-            Arma
-            <select name="arma" value={arma} onChange={handleArmaChange} >
-                <option value=" ">ELIGE UN ARMA</option>
-                <option value="arco">ARCO</option>
-                <option value="mandoble">MANDOBLE</option>
-                <option value="espada">ESPADA</option>
-                <option value="lanza">LANZA</option>
+            Ciudad natal
+            <select name="arma" value={city} onChange={handleCityChange} >
+                <option value=" ">ELIGE LA CIUDAD</option>
+                <option value="Mondstadt">MONDSTADT</option>
+                <option value="Liyue">LIYUE</option>
+                <option value="Inazuma">INAZUMA</option>
             </select>
-            {(formSubmitted && !armaValid) &&
-                <p className="CharacterForm_error">Debes escoger el arma que usa el personaje</p>
+            {(formSubmitted && !cityValid) &&
+                <p className="CharacterForm_error">Debes escoger la ciudad natal del personaje</p>
             }
         </label>
 
@@ -190,8 +194,8 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
             }
         </label>
 
-    
-        <button className="button">{type==="create"? "CREAR": "GUARDAR CAMBIOS"}</button>
+
+        <button className="button">{type === "create" ? "CREAR" : "GUARDAR CAMBIOS"}</button>
     </form>;
 
 }

@@ -77,10 +77,10 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   padding: 0px 35px;
   box-sizing: border-box;
-  /*margin-top: 100px;*/ 
+  margin-bottom: 150px;
 }
 
 .titlesAllComp{

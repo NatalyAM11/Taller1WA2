@@ -5,7 +5,7 @@ import { MainTitle } from '../mainTitle/MainTitle'
 import { ElementTitle } from '../ElementTitle/ElementTitle'
 import { Character, CharacterProps } from '../Character/Character'
 import { CharacterForm } from '../CharacterForm/CharacterForm';
-import { HashRouter, Route, Switch, Redirect} from 'react-router-dom';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import Weapon from '../Weapon/Weapon';
@@ -15,6 +15,7 @@ import CharacterDetails from '../CharacterDetails/CharacterDetails';
 import { CharacterElemObj } from '../types/CharacterElemObj';
 import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
 import { WeaponElemObj } from '../types/WeaponElemObj';
+import { ArtifactsDetails } from './ArtifactsDetails/ArtifactsDetails';
 
 
 /*type CharacterElemObj= CharacterProps &{
@@ -27,7 +28,7 @@ function App() {
   const history = useHistory();
 
   const [formType, setFormType] = React.useState<'create' | 'edit'>('create');
-  const [editId, setEditId] = React.useState<number | null>(null);
+  const [editIdCharacter, setEditIdCharacter] = React.useState<number | null>(null);
 
   const [ArtifactsElems, setArtifacts] = React.useState<CharacterElemObj[]>([])
 
@@ -37,16 +38,18 @@ function App() {
       id: Math.random(),
       name: "DILUC",
       elementC: "pyro",
-      img: "diluc2.png",
-      history:`Diluc Ragnvindr es el dueño actual de Viñedo del Amanecer y un noble de alta estima en la sociedad de Mondstadt. Aunque parece apático sobre los asuntos de la ciudad, la protege de noche como el rumoreado "Héroe Oscuro".
+      img: "diluc.png",
+      history: `Diluc Ragnvindr es el dueño actual de Viñedo del Amanecer y un noble de alta estima en la sociedad de Mondstadt. Aunque parece apático sobre los asuntos de la ciudad, la protege de noche como el rumoreado "Héroe Oscuro".
       Como el hombre más rico de Mondstadt, Diluc siempre muestra su lado más exquisito. Sin embargo, su verdadera naturaleza es la de un guerrero con una gran determinación. Protege a Mondstadt con todas sus fuerzas en todo momento.`,
       role: "DPS",
       constelacion: "Noctua",
+      city: "Mondstadt",
+      trailer: "https://www.youtube.com/embed/1TfbiDo7N4k",
       artifacts: [],
       weapon: {
-        id:0,
-        name:"",
-        mainImg:"",
+        id: 0,
+        name: "",
+        mainImg: "",
         history: "",
         type: "",
         stat: "",
@@ -58,15 +61,17 @@ function App() {
       id: Math.random(),
       name: "BENNET",
       elementC: "pyro",
-      img: "bennet2.png",
-      history:'Un huérfano descubierto por un anciano aventurero cuando era un bebé, Bennett se crio en el Gremio de Aventureros de Mondstadt. Él es el único miembro de la "Brigada de Benny", ya que todos los demás dejaron el equipo después de experimentar la desgracia constante que lo sigue.',
+      img: "bennet.png",
+      history: 'Un huérfano descubierto por un anciano aventurero cuando era un bebé, Bennett se crio en el Gremio de Aventureros de Mondstadt. Él es el único miembro de la "Brigada de Benny", ya que todos los demás dejaron el equipo después de experimentar la desgracia constante que lo sigue.',
       role: "BURST SUPPORT",
       constelacion: "Rota Calamitas",
+      city: "Mondstadt",
+      trailer: "https://www.youtube.com/embed/UW8lG_wNFIY",
       artifacts: [],
       weapon: {
-        id:0,
-        name:"",
-        mainImg:"",
+        id: 0,
+        name: "",
+        mainImg: "",
         history: "",
         type: "",
         stat: "",
@@ -76,8 +81,40 @@ function App() {
   ])
 
 
+  //Separo los personajes
+  const pyro = CharactersElems.filter((x) => {
+    if (x.elementC === "pyro") {
+      return true
+    }
+  })
+
+  const electro = CharactersElems.filter((x) => {
+    if (x.elementC === "electro") {
+      return true
+    }
+  })
+
+  //artefactos array
+  let artifactArray: ArtifactsElemObj[] = [];
+  CharactersElems.forEach((elem) => {
+    elem.artifacts.forEach((artifactElem) => {
+      artifactArray.push(artifactElem)
+    })
+  })
+
+
+  //arma
+  let weaponElem: WeaponElemObj | undefined = undefined;
+  CharactersElems.forEach((elem) => {
+    if (elem) {
+      weaponElem = elem.weapon;
+    }
+  })
+
+  console.log(weaponElem)
+
   //const handleCreate=(newCharacter: CharacterProps)=>{
-  const handleCreate = (newCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string}) => {
+  const handleCreate = (newCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string }) => {
     console.log('Se creo', newCharacter)
 
     const newArrayCharacter = [
@@ -87,23 +124,16 @@ function App() {
         name: newCharacter.name,
         elementC: newCharacter.elementC,
         img: newCharacter.img,
+        history: newCharacter.history,
         role: newCharacter.role,
         constelacion: newCharacter.constelacion,
-        history: newCharacter.history,
-        artifacts: [
-          {
-            id: 0,
-            name:"Bruja Carmesi",
-            mainImg:"brujaCarmesi.png",
-            arena:"ATK%",
-            copa:"PYRO CMG Bonus",
-            tiara:"Crit Rate / DMG",
-          }
-        ],
+        city: newCharacter.city,
+        trailer: newCharacter.trailer,
+        artifacts: [],
         weapon: {
-          id:0,
-          name:"",
-          mainImg:"",
+          id: 0,
+          name: "",
+          mainImg: "",
           history: "",
           type: "",
           stat: "",
@@ -132,17 +162,18 @@ function App() {
 
 
   const handleBeginEdit = (editId: number) => {
-    setEditId(editId);
+    setEditIdCharacter(editId);
     setFormType("edit");
     console.log('estas en edit', editId)
   }
+  
 
-  const handleEdit = (id: number, editCharacter: { name: string }) => {
+  const handleEdit = (id: number, editCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string}) => {
     console.log(id, editCharacter.name)
 
     const characterCopy = CharactersElems.slice();
     const editIndex = CharactersElems.findIndex((elem) => {
-      if (elem.id === editId) {
+      if (elem.id === editIdCharacter) {
         return true;
       }
       return false
@@ -171,7 +202,7 @@ function App() {
 
     characterCopy[editIndex] = {
       ...CharactersElems[editIndex],
-      artifacts:[
+      artifacts: [
         ...CharactersElems[editIndex].artifacts,
         newArtifact
       ]
@@ -183,8 +214,8 @@ function App() {
   }
 
 
-   //Artefactos
-   const handleCreateWeapon = (characterId: number, newWeapon: WeaponElemObj) => {
+  //Artefactos
+  const handleCreateWeapon = (characterId: number, newWeapon: WeaponElemObj) => {
 
     const characterCopy = CharactersElems.slice();
     const editIndex = CharactersElems.findIndex((elem) => {
@@ -213,10 +244,7 @@ function App() {
         <header className="App-header">
           <nav className="nav">
             <RouterLink to="/home"><img src={`${process.env.PUBLIC_URL}/img/navLogo.png`} className="navLogo"></img></RouterLink>
-            <Link
-              text="PERSONAJES"
-              url="/charactersList"
-            />
+
             <Link
               text="ARMAS"
               url="/weaponsList"
@@ -249,16 +277,41 @@ function App() {
                 />
 
                 <article className="componentsDiv">
-                  {CharactersElems.map((elem) => {
+                  {pyro.map((elem) => {
                     return <Character
                       key={elem.id}
                       id={elem.id}
                       name={elem.name}
                       elementC={elem.elementC}
-                      img={`${process.env.PUBLIC_URL}/img/${elem.img}`}
-                      history= {elem.history}
+                      img={elem.img}
+                      history={elem.history}
                       role={elem.role}
                       constelacion={elem.constelacion}
+                      trailer={elem.trailer}
+                      onDelete={handleDelete}
+                      onEdit={handleBeginEdit}
+                    />
+                  })}
+                </article>
+
+
+                <ElementTitle
+                  text="ELECTRO"
+                  img="pyroIcon.png"
+                />
+
+                <article className="componentsDiv">
+                  {electro.map((elem) => {
+                    return <Character
+                      key={elem.id}
+                      id={elem.id}
+                      name={elem.name}
+                      elementC={elem.elementC}
+                      img={elem.img}
+                      history={elem.history}
+                      role={elem.role}
+                      constelacion={elem.constelacion}
+                      trailer={elem.trailer}
                       onDelete={handleDelete}
                       onEdit={handleBeginEdit}
                     />
@@ -270,29 +323,13 @@ function App() {
             <Route path="/characterForm">
               <article className="info">
 
-                <div className="formTitle">
-                  <h2 className="titleForm">{formType === "create" ? "FORMULARIO" : "EDITA EL PERSONAJE"}</h2>
-
-                  {(formType === "create") &&
-                    <div className="formTypes">
-                      <Link
-                        text="PERSONAJES"
-                        url="/characterForm"
-                      />
-                      <Link
-                        text="ARMAS"
-                        url="/weaponForm"
-                      />
-                      <Link
-                        text="ARTEFACTOS"
-                        url="/artifactsForm"
-                      />
-                    </div>
-                  }
-                </div>
+                <img src={`${process.env.PUBLIC_URL}/img/bannerForm.png`} className="banner"></img>
+                <MainTitle
+                  text="FORMULARIO"
+                />
 
                 <CharacterForm
-                  editId={editId}
+                  editId={editIdCharacter}
                   type={formType}
                   onCreate={handleCreate}
                   onEdit={handleEdit}
@@ -300,40 +337,12 @@ function App() {
               </article>
             </Route>
 
-            <Route path="/charactersList">
-
-              <section className="charactersList">
-                <ElementTitle
-                  text="PYRO"
-                  img="pyroIcon.png"
-                />
-
-                <article className="componentsDiv">
-                  {CharactersElems.map((elem) => {
-                    return <Character
-                      key={elem.id}
-                      id={elem.id}
-                      name={elem.name}
-                      elementC={elem.elementC}
-                      img={`${process.env.PUBLIC_URL}/img/${elem.img}`}
-                      history={elem.history}
-                      role={elem.role}
-                      constelacion={elem.constelacion}
-                      onDelete={handleDelete}
-                      onEdit={handleBeginEdit}
-                    />
-                  })}
-                </article>
-              </section>
-            </Route>
-
-
             <Route path="/characterDetails/:id">
               <CharacterDetails
                 list={CharactersElems}
-                onCreateArtifact= {handleCreateArtifact}
-                onCreateWeapon= {handleCreateWeapon}
-              /> 
+                onCreateArtifact={handleCreateArtifact}
+                onCreateWeapon={handleCreateWeapon}
+              />
             </Route>
 
 
@@ -345,11 +354,7 @@ function App() {
                 <h2 className="titlesSections normalTitles">MANDOBLE</h2>
 
                 <article className="componentsDiv">
-                  <Weapon
-                    id={0}
-                    name={'Lápida del lobo'}
-                    img={`${process.env.PUBLIC_URL}/img/lapidaLobo.png`}
-                  />
+
                 </article>
               </article>
 
@@ -362,14 +367,33 @@ function App() {
                 />
 
                 <article className="componentsDiv">
+                  {artifactArray.map((elem) => {
+                    return <Artifacts
+                      key={elem.id}
+                      id={elem.id}
+                      name={elem.name}
+                      mainImg={elem.mainImg}
+                    />
+                  })}
+
+
+
                 </article>
               </article>
+            </Route>
+
+
+
+            <Route path="/artifactsDetails/:id">
+                  <ArtifactsDetails
+                   list={artifactArray}
+                  />
             </Route>
 
             <Route path="/error404">
               <Error404></Error404>
             </Route>
-            <Redirect to="/error404"/>
+            <Redirect to="/error404" />
           </Switch>
 
         </header>

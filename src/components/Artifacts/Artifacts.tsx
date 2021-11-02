@@ -20,13 +20,17 @@ export const Weapon: React.FC<ArtifactsProps> = ({id, name, mainImg, onDelete, o
     }
 
     const handleEdit: React.MouseEventHandler<HTMLButtonElement> = ()=>{
-          history.push('/artifactsForm')
+          /*history.push('/artifactsForm')
           /*onEdit(id);*/
     }
+
+    const handleDetails: React.MouseEventHandler<HTMLImageElement> = ()=>{
+        history.push(`/artifactsDetails/${id}`)
+  }
   
     return (<div className="artifacts">
           <h2 className="artifactName titlesAllComp">{name}</h2>
-          <img className="artifactImg" src={mainImg}></img>
+          <img className="artifactImg" src={`${process.env.PUBLIC_URL}/img/${mainImg}`}  onClick={handleDetails}></img>
           <button className="componentsButton" onClick={handleEdit}>EDIT</button>
           <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>
     </div>);

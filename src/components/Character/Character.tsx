@@ -11,6 +11,7 @@ export interface CharacterProps{
     history:string,
     role:string,
     constelacion: string,
+    trailer:string
     onDelete?: (id:number)=>void
     onEdit?: (id:number)=>void
 }
@@ -50,7 +51,7 @@ export const Character: React.FC<CharacterProps> = ({id, name, elementC, img, on
       return (<div className="character">
             <div className="onlyCharacter" onClick={handlePerfil}>
             <h2 className="characterName titlesAllComp">{name}</h2>
-            <img className="characterImg" src={img}></img>
+            <img className="characterImg" src={`${process.env.PUBLIC_URL}/img/${img}`}></img>
             </div>
             {onEdit && <button className="componentsButton" onClick={handleEdit}>EDIT</button>}
             {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>}

@@ -4,5 +4,9 @@ export type ArtifactsElemObj = {
     mainImg:string;
     arena:string;
     copa:string;
-    tiara:string
+    tiara:string;
+    twoItems:string;
+    fourItems:string;
+    domain:string;
+    notes:string;
 }
