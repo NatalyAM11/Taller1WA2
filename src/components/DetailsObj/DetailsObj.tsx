@@ -4,7 +4,7 @@ import './DetailsObj.css';
 
 interface DetailsObjProps{
     title:string,
-    text?:string,
+    text?:string | undefined,
     stars?:string
 }
 

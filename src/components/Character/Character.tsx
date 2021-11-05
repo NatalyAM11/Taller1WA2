@@ -39,10 +39,6 @@ export const Character: React.FC<CharacterProps> = ({id, name, elementC, img, on
        
       }
 
-      const handleView: React.MouseEventHandler<HTMLButtonElement> = ()=>{
-            history.push(`/characterDetails/${id}`)
-      }
-
       const handlePerfil: React.MouseEventHandler<HTMLDivElement>  = ()=>{
             history.push(`/characterDetails/${id}`)
       }

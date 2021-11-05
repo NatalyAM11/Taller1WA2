@@ -1,0 +1,35 @@
+.weaponDetails{
+    width: 100%;
+    padding: 180px 80px;
+    box-sizing: border-box;
+}
+
+.weaponMainInfoDiv{
+    display: flex;
+    margin-bottom: 150px;
+    padding: 0px 50px;
+    box-sizing: border-box;
+}
+
+.weaponDescriptionDiv{
+    width: 80%;
+    display: flex;
+    margin-top: 50px; 
+}
+
+.weaponDescriptionTextDiv{
+    width: 50%;
+    text-align: left;
+    margin-left: 55px;
+}
+
+.weaponPassiveDiv{
+    width: 100%;
+}
+
+.weaponPassive--text{
+    width: 90%;
+    margin-top: 30px;
+    text-align: left;
+    margin-left: 45px;
+}

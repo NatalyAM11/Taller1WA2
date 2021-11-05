@@ -15,22 +15,23 @@ import CharacterDetails from '../CharacterDetails/CharacterDetails';
 import { CharacterElemObj } from '../types/CharacterElemObj';
 import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
 import { WeaponElemObj } from '../types/WeaponElemObj';
-import { ArtifactsDetails } from './ArtifactsDetails/ArtifactsDetails';
+import { ArtifactsDetails } from '../ArtifactsDetails/ArtifactsDetails';
+import { WeaponDetails } from '../WeaponDetails/WeaponDetails';
 
 
 /*type CharacterElemObj= CharacterProps &{
   id: number;
 }*/
-
+let weaponn: WeaponElemObj;
 
 function App() {
-
   const history = useHistory();
 
   const [formType, setFormType] = React.useState<'create' | 'edit'>('create');
   const [editIdCharacter, setEditIdCharacter] = React.useState<number | null>(null);
 
-  const [ArtifactsElems, setArtifacts] = React.useState<CharacterElemObj[]>([])
+
+
 
   //Estado del arreglo de personajes
   const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>([
@@ -46,17 +47,8 @@ function App() {
       city: "Mondstadt",
       trailer: "https://www.youtube.com/embed/1TfbiDo7N4k",
       artifacts: [],
-      weapon: {
-        id: 0,
-        name: "",
-        mainImg: "",
-        history: "",
-        type: "",
-        stat: "",
-        passive: "",
-      }
+      weapon: weaponn,
     },
-
     {
       id: Math.random(),
       name: "BENNET",
@@ -68,20 +60,12 @@ function App() {
       city: "Mondstadt",
       trailer: "https://www.youtube.com/embed/UW8lG_wNFIY",
       artifacts: [],
-      weapon: {
-        id: 0,
-        name: "",
-        mainImg: "",
-        history: "",
-        type: "",
-        stat: "",
-        passive: "",
-      }
+      weapon: weaponn,
     },
   ])
 
 
-  //Separo los personajes
+  //Separo los personajes por elemento
   const pyro = CharactersElems.filter((x) => {
     if (x.elementC === "pyro") {
       return true
@@ -94,8 +78,16 @@ function App() {
     }
   })
 
+  const cryo = CharactersElems.filter((x) => {
+    if (x.elementC === "cryo") {
+      return true
+    }
+  })
+
+
   //artefactos array
   let artifactArray: ArtifactsElemObj[] = [];
+
   CharactersElems.forEach((elem) => {
     elem.artifacts.forEach((artifactElem) => {
       artifactArray.push(artifactElem)
@@ -103,17 +95,39 @@ function App() {
   })
 
 
-  //arma
-  let weaponElem: WeaponElemObj | undefined = undefined;
+  //weapon elem y array 
+  let weaponElem: WeaponElemObj | undefined;
+  let weaponArray: WeaponElemObj[] = [];
+
+  
   CharactersElems.forEach((elem) => {
-    if (elem) {
-      weaponElem = elem.weapon;
+    weaponArray.push(elem.weapon)
+  });
+
+  const mandoble= weaponArray.filter((w)=>{
+    if (w?.type === "Mandoble") {
+      return true
     }
   })
 
-  console.log(weaponElem)
+  const lanza= weaponArray.filter((w)=>{
+    if (w?.type === "Lanza") {
+      return true
+    }
+  })
 
-  //const handleCreate=(newCharacter: CharacterProps)=>{
+
+  CharactersElems.forEach((elem) => {
+    if (elem) {
+
+      if (elem.weapon) {
+        weaponElem = elem.weapon;
+      }
+    }
+  });
+
+  console.log(weaponArray)
+
   const handleCreate = (newCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string }) => {
     console.log('Se creo', newCharacter)
 
@@ -146,8 +160,7 @@ function App() {
   }
 
 
-  const handleDelete = (deleteId: number) => {
-
+  const handleDeleteCharacter = (deleteId: number) => {
     const characterElemCopy = CharactersElems.filter((elem) => {
 
       if (elem.id == deleteId) {
@@ -166,9 +179,9 @@ function App() {
     setFormType("edit");
     console.log('estas en edit', editId)
   }
-  
 
-  const handleEdit = (id: number, editCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string}) => {
+
+  const handleEdit = (id: number, editCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string }) => {
     console.log(id, editCharacter.name)
 
     const characterCopy = CharactersElems.slice();
@@ -186,7 +199,7 @@ function App() {
 
     setCharacters(characterCopy);
   }
-  //console.log(CharactersElems);
+
 
 
   //Artefactos
@@ -231,8 +244,6 @@ function App() {
     }
 
     setCharacters(characterCopy);
-
-    //console.log(CharactersElems.artifacts)
   }
 
 
@@ -271,10 +282,12 @@ function App() {
                   text="PERSONAJES"
                 />
 
-                <ElementTitle
-                  text="PYRO"
-                  img="pyroIcon.png"
-                />
+                {pyro.length > 0 &&
+                  <ElementTitle
+                    text="PYRO"
+                    img="pyroIcon.png"
+                  />
+                }
 
                 <article className="componentsDiv">
                   {pyro.map((elem) => {
@@ -288,17 +301,18 @@ function App() {
                       role={elem.role}
                       constelacion={elem.constelacion}
                       trailer={elem.trailer}
-                      onDelete={handleDelete}
+                      onDelete={handleDeleteCharacter}
                       onEdit={handleBeginEdit}
                     />
                   })}
                 </article>
 
-
-                <ElementTitle
-                  text="ELECTRO"
-                  img="pyroIcon.png"
-                />
+                {electro.length > 0 &&
+                  <ElementTitle
+                    text="ELECTRO"
+                    img="pyroIcon.png"
+                  />
+                }
 
                 <article className="componentsDiv">
                   {electro.map((elem) => {
@@ -312,11 +326,38 @@ function App() {
                       role={elem.role}
                       constelacion={elem.constelacion}
                       trailer={elem.trailer}
-                      onDelete={handleDelete}
+                      onDelete={handleDeleteCharacter}
                       onEdit={handleBeginEdit}
                     />
                   })}
                 </article>
+
+
+                {cryo.length > 0 &&
+                  <ElementTitle
+                    text="CRYO"
+                    img="pyroIcon.png"
+                  />
+                }
+
+                <article className="componentsDiv">
+                  {cryo.map((elem) => {
+                    return <Character
+                      key={elem.id}
+                      id={elem.id}
+                      name={elem.name}
+                      elementC={elem.elementC}
+                      img={elem.img}
+                      history={elem.history}
+                      role={elem.role}
+                      constelacion={elem.constelacion}
+                      trailer={elem.trailer}
+                      onDelete={handleDeleteCharacter}
+                      onEdit={handleBeginEdit}
+                    />
+                  })}
+                </article>
+
               </article>
             </Route>
 
@@ -351,10 +392,35 @@ function App() {
                 <MainTitle
                   text="ARMAS"
                 />
-                <h2 className="titlesSections normalTitles">MANDOBLE</h2>
+                {mandoble.length>0 &&
+                  <h2 className="titlesSections normalTitles">MANDOBLE</h2>
+                }
 
                 <article className="componentsDiv">
+                  {mandoble.map((elem) => {
+                    return <Weapon
+                      key={elem.id}
+                      id={elem.id}
+                      name={elem.name}
+                      img={elem.mainImg}
+                    />
+                  })}
+                </article>
 
+
+                {lanza.length>0  &&
+                  <h2 className="titlesSections normalTitles">LANZA</h2>
+                }
+
+                <article className="componentsDiv">
+                 {lanza.map((elem) => {
+                    return <Weapon
+                      key={elem.id}
+                      id={elem.id}
+                      name={elem.name}
+                      img={elem.mainImg}
+                    />
+                  })}
                 </article>
               </article>
 
@@ -375,9 +441,6 @@ function App() {
                       mainImg={elem.mainImg}
                     />
                   })}
-
-
-
                 </article>
               </article>
             </Route>
@@ -385,9 +448,17 @@ function App() {
 
 
             <Route path="/artifactsDetails/:id">
-                  <ArtifactsDetails
-                   list={artifactArray}
-                  />
+              <ArtifactsDetails
+                list={artifactArray}
+              />
+            </Route>
+
+            <Route path="/weaponDetails/:id">
+              {weaponElem &&
+                <WeaponDetails
+                  weapon={weaponElem}
+                />
+              }
             </Route>
 
             <Route path="/error404">

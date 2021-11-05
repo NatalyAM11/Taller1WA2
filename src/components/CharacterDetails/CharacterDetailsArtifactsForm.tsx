@@ -5,10 +5,10 @@ import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
 
 
 export interface CharacterDetailsArtifactsFormProps {
-      type: "create" | "edit";
+      type: "create" | "edit" | "none";
       editId: number | null;
       onCreate: (newArtifact: ArtifactsElemObj) => void;
-      onEdit: (id: number, editArtifact: ArtifactsElemObj) => void;
+      onEdit: (id: number, editArtifact: {name: string, mainImg: string, arena: string, copa: string, tiara: string, twoItems: string, fourItems: string, domain: string, notes: string}) => void;
 
 }
 
@@ -83,6 +83,7 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
 
             if (type == "create" && nameValid && mainImgValid && arenaValid && calizValid
                   && tiaraValid) {
+                        
                   const newArtifact: ArtifactsElemObj = {
                         id: Math.random(),
                         name: name,
@@ -99,18 +100,20 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
                   onCreate(newArtifact)
                   setFormSubmitted(false);
                   console.log(newArtifact)
-                  
+
             } else if (type === "edit" && nameValid && mainImgValid && arenaValid && calizValid
                   && tiaraValid) {
 
                   if (editId !== null) {
-                        onEdit(editId, { id: editId, name: name, mainImg: mainImg, arena: arena, copa: caliz, tiara: tiara, twoItems: twoItems, fourItems: fourItems, domain: domain, notes: notes })
+                        onEdit(editId, {name: name, mainImg: mainImg, arena: arena, copa: caliz, tiara: tiara, twoItems: twoItems, fourItems: fourItems, domain: domain, notes: notes})
                   }
 
             } else {
                   console.log('invalid')
             }
       }
+
+
 
 
       return (<form onSubmit={handleSubmit} className="artifactForm">

@@ -2,33 +2,45 @@ import React from 'react';
 import './Weapon.css';
 import { useHistory } from 'react-router';
 
-export interface WeaponProps{
+export interface WeaponProps {
     id: number,
-    name:string,
-    img:string,
-    onDelete?: (id:number)=>void
-    onEdit?: (id:number)=>void
+    name: string,
+    img: string,
+    onDelete?: (id: number) => void
+    onEdit?: (id: number) => void
 }
 
-export const Weapon: React.FC<WeaponProps> = ({id, name, img, onDelete, onEdit})=>{
+export const Weapon: React.FC<WeaponProps> = ({ id, name, img, onDelete, onEdit }) => {
 
-    const history=useHistory();
+    const historyPage = useHistory();
 
-    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = ()=>{
-        /*  history.push('/perfilPersonaje')
-          onDelete(id);*/
+
+    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
+          
+        if(onDelete){
+            onDelete(id);
+      }
     }
 
-    const handleEdit: React.MouseEventHandler<HTMLButtonElement> = ()=>{
-          /*history.push('/form')
-          onEdit(id);*/
+    const handleEdit: React.MouseEventHandler<HTMLButtonElement> = () => {
+        /*history.push('/form')
+        onEdit(id);*/
     }
-  
+
+    const handleDetails: React.MouseEventHandler<HTMLImageElement> = () => {
+        historyPage.push(`/weaponDetails/${id}`)
+    }
+
+
+
     return (<div className="weapon">
-          <h2 className="weaponName titlesAllComp">{name}</h2>
-          <img className="weaponImg" src={img}></img>
-          <button className="componentsButton" onClick={handleEdit}>EDIT</button>
-          <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>
+        <div className="weaponImgDiv">
+            <h2 className="weaponName titlesAllComp">{name}</h2>
+            <img className="weaponImg" src={`${process.env.PUBLIC_URL}/img/${img}`} onClick={handleDetails}></img>
+        </div>
+        
+        <button className="componentsButton" onClick={handleEdit}>EDIT</button>
+        <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>
     </div>);
 
 }

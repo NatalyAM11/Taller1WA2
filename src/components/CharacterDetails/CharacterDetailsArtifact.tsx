@@ -19,31 +19,31 @@ export const CharacterDetailsArtifact: React.FC<CharacterDetailsArtifactProps> =
 
     const history = useHistory();
 
-    const handleDetailArtifact: React.MouseEventHandler<HTMLDivElement> = () => {
+    const handleDetailArtifact: React.MouseEventHandler<HTMLImageElement> = () => {
         history.push(`/artifactsDetails/${id}`)
     }
 
     const handleEditArtifact: React.MouseEventHandler<HTMLButtonElement> = () => {
-        if(onEdit){
+        if (onEdit) {
             onEdit(id);
-     }
-    } 
+        }
+    }
 
 
-
-
-    
     return <div className="ArtifactsCharacter">
 
-        <button className="editButtonArtifact button" onClick={handleEditArtifact}>EDITAR</button>
-
         <div className="AllInfoDiv">
-            <section className="mainInfoArtifact" onClick={handleDetailArtifact}>
-                <img className="mainInfoArtifactImg" src={`${process.env.PUBLIC_URL}/img/${imgFlor}`}></img>
+            <section className="mainInfoArtifact">
+                <img className="mainInfoArtifactImg" src={`${process.env.PUBLIC_URL}/img/${imgFlor}`} onClick={handleDetailArtifact}></img>
 
                 <div className="mainInfoArtifact--textDiv">
                     <p className="mainInfoArtifact--text">{name}</p>
                     <p className="subtitleMainInfo">{"4 set items"}</p>
+
+                    <div className="buttonsArtifactDiv">
+                        <button className="buttonComponents button" onClick={handleEditArtifact}>EDITAR</button>
+                        <button className="buttonComponents button deleteButton" onClick={handleEditArtifact}>ELIMINAR</button>
+                    </div>
                 </div>
             </section>
 
