@@ -5,7 +5,7 @@ import { MainTitle } from '../mainTitle/MainTitle'
 import { ElementTitle } from '../ElementTitle/ElementTitle'
 import { Character, CharacterProps } from '../Character/Character'
 import { CharacterForm } from '../CharacterForm/CharacterForm';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import Weapon from '../Weapon/Weapon';
@@ -20,6 +20,7 @@ import { WeaponDetails } from '../WeaponDetails/WeaponDetails';
 import { Footer } from '../Footer/Footer';
 import { Bar } from 'react-chartjs-2';
 import { TitleSection } from '../TitleSection/TitleSection';
+import { getChartArtifactsData } from '../Utils/getChartData';
 
 
 /*type CharacterElemObj= CharacterProps &{
@@ -105,6 +106,7 @@ function App() {
     weaponArray.push(elem.weapon)
   });
 
+  //separo los tipos de armas
   const mandoble = weaponArray.filter((w) => {
     if (w?.type === "Mandoble") {
       return true
@@ -197,6 +199,8 @@ function App() {
     }
 
     setCharacters(characterCopy);
+    setFormType("create");
+    setEditIdCharacter(null)
   }
 
 
@@ -245,26 +249,26 @@ function App() {
   }
 
 
-  const data = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  const elementsData = {
+    labels: ['PYRO', 'ELECTRO', 'CRYO', 'ANEMO', 'HYDRO', 'GEO'],
     datasets: [
       {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        label: '# de personajes',
+        data: [pyro.length, electro.length, cryo.length],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
           'rgba(153, 102, 255, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(52, 235, 128, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
           'rgba(255, 159, 64, 0.2)',
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
           'rgba(153, 102, 255, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(52, 235, 128, 1)',
+          'rgba(54, 162, 235, 1)',
           'rgba(255, 159, 64, 1)',
         ],
         borderWidth: 1,
@@ -273,14 +277,18 @@ function App() {
   };
 
 
+  console.log(getChartArtifactsData(CharactersElems))
+  const artifactsData = getChartArtifactsData(CharactersElems);
+
+
 
   return (
 
-    <HashRouter>
+  
       <div className="App">
         <header className="App-header">
           <nav className="nav">
-            <RouterLink to="/home"><img src={`${process.env.PUBLIC_URL}/img/navLogo.png`} className="navLogo"></img></RouterLink>
+            <RouterLink to="/"><img src={`${process.env.PUBLIC_URL}/img/navLogo.png`} className="navLogo"></img></RouterLink>
 
             <Link
               text="ARMAS"
@@ -305,7 +313,7 @@ function App() {
 
 
           <Switch>
-            <Route path="/home">
+            <Route path="/" exact>
               <img src={`${process.env.PUBLIC_URL}/img/bannerImg.jpg`} className="banner"></img>
 
               <article className="info">
@@ -402,6 +410,7 @@ function App() {
 
                 <CharacterForm
                   editId={editIdCharacter}
+                  characterElem={CharactersElems}
                   type={formType}
                   onCreate={handleCreate}
                   onEdit={handleEdit}
@@ -499,33 +508,54 @@ function App() {
                 <MainTitle
                   text="ESTADÍSTICAS"
                 />
+                <div className="characterDetails">
+                  <div className="graphicDiv">
+                    <TitleSection
+                      text="ELEMENTOS"
+                    />
 
-                <TitleSection
-                  text="ELEMENTOS"
-                />
-                
-                <Bar data={data} options={
-                  {
-                    indexAxis: 'y',
-                    // Elements options apply to all of the options unless overridden in a dataset
-                    // In this case, we are setting the border of each horizontal bar to be 2px wide
-                    elements: {
-                      bar: {
-                        borderWidth: 2,
-                      },
-                    },
-                    responsive: true,
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                      title: {
-                        display: true,
-                        text: 'Elementos de los personajes',
-                      },
-                    },
-                  }
-                } />
+                    <Bar className="graphicBar" data={elementsData} options={
+                      {
+                        indexAxis: 'y',
+                        elements: {
+                          bar: {
+                            borderWidth: 2,
+                          },
+                        },
+                        responsive: true,
+                        plugins: {
+                          legend: {
+                            display: false,
+                          },
+                        },
+                      }
+                    } />
+                  </div>
+
+                  <div className="graphicDiv">
+                    <TitleSection
+                      text="ARTEFACTOS POR PERSONAJE"
+                    />
+
+                    <Bar className="graphicBar" data={artifactsData} options={
+                      {
+                        indexAxis: 'y',
+                        elements: {
+                          bar: {
+                            borderWidth: 2,
+                          },
+                        },
+                        responsive: true,
+                        plugins: {
+                          legend: {
+                            display: false,
+                          },
+                        },
+                      }
+                    } />
+                  </div>
+
+                </div>
               </article>
             </Route>
 
@@ -538,7 +568,7 @@ function App() {
         </header>
         <Footer />
       </div>
-    </HashRouter>
+  
   );
 }
 

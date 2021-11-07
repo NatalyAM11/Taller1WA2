@@ -8,55 +8,60 @@ import './CharacterForm.css';
 interface CharacterFormProps {
     //onCreate: (newCharacter: CharacterProps)=>void;
     editId: number | null;
+    characterElem: CharacterElemObj[],
     type: "create" | "edit";
     onCreate: (newCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string }) => void;
     onEdit: (id: number, editCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string}) => void;
 }
 
-export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCreate, onEdit }) => {
+export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, characterElem, type, onCreate, onEdit }) => {
 
     const history = useHistory();
+
+    const editC= characterElem.find((elem)=>{
+        return elem.id===editId
+    })
 
 
     const [formSubmitted, setFormSubmitted] = React.useState(false);
 
-    const [name, setName] = React.useState(' ');
+    const [name, setName] = React.useState(editC?.name || ' ');
     const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setName(event.target.value);
     }
 
-    const [elementC, setElementC] = React.useState(' ');
+    const [elementC, setElementC] = React.useState(editC?.elementC || ' ');
     const handleElementCChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         console.log(event.target.value)
         setElementC(event.target.value)
     }
 
-    const [mainImg, setMainImg] = React.useState(' ');
+    const [mainImg, setMainImg] = React.useState(editC?.img || ' ');
     const handleMainImgChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setMainImg(event.target.value)
     }
 
-    const [perfil, setPerfil] = React.useState(' ');
+    const [perfil, setPerfil] = React.useState(editC?.history || ' ');
     const handlePerfilChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
         setPerfil(event.target.value)
     }
 
-    const [rol, setRol] = React.useState(' ');
+    const [rol, setRol] = React.useState(editC?.role || ' ');
     const handleRolChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setRol(event.target.value)
     }
 
-    const [city, setCity] = React.useState(' ');
+    const [city, setCity] = React.useState(editC?.city || ' ');
     const handleCityChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setCity(event.target.value)
     }
 
-    const [constellation, setConstellation] = React.useState(' ');
+    const [constellation, setConstellation] = React.useState(editC?.constelacion || ' ');
     const handleConstellationChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setConstellation(event.target.value)
     }
 
-    const [trailerURL, setTrailerURL] = React.useState(' ');
+    const [trailerURL, setTrailerURL] = React.useState(editC?.trailer || ' ');
     const handleTrailerURLChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setTrailerURL(event.target.value)
     }
@@ -97,12 +102,13 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
             //tambien el form vuelve a su estado inicial
             setFormSubmitted(false);
 
-            history.push('/home');
+            history.push('/');
 
         } else if (type === "edit" && nameValid) {
 
             if (editId !== null) {
                 onEdit(editId, { name: name, elementC: elementC, img: mainImg, history:perfil, role: rol, constelacion:constellation, city:city, trailer:trailerURL})
+                history.push(`/characterDetails/${editC?.id}`)
             }
 
         } else {

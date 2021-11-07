@@ -13,6 +13,8 @@ import { WeaponElemObj } from '../types/WeaponElemObj';
 import { CharacterDetailsWeapon } from './CharacterDetailsWeapon';
 import { useHistory } from 'react-router';
 import { type } from 'os';
+import { useGetElementByIdParam } from '../Utils/useGetElementByIdParam';
+import { useIdParam } from '../Utils/useIdParam';
 
 
 interface CharacterDetailsProps {
@@ -26,11 +28,9 @@ interface CharacterDetailsProps {
 export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCreateArtifact, onCreateWeapon }) => {
     const historyPages = useHistory();
 
-    const { id: idString } = useParams<{ id: string }>();
-    const id = parseFloat(idString);
-
-    // let nameArtifact, florArtifact, arenaArtifact, copaArtifact, tiaraArtifact, idArtifact;
-
+    //Busco el elemento por su id que viene en el parametro en la lista
+    const id= useIdParam();
+    const character= useGetElementByIdParam(list);
 
     //Estado del arreglo de personajes
     const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>(list);
@@ -46,19 +46,9 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
     let [ArtifactElems, setArtifacts] = React.useState<ArtifactsElemObj[]>([]);
 
 
-    const character = list.find((elem) => {
-        if (elem.id === id) {
-            return true;
-        } else {
-            return false;
-        }
-    })
-
-    if (!character) {
-        return <Redirect to="/Error404" />
-    }
 
     //All character data
+    if(!character){return null}
     const { name, img, history, role, constelacion, city, artifacts, weapon, trailer } = character;
 
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Redirect, useParams } from 'react-router';
 import { TitleSection } from '../TitleSection/TitleSection';
 import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
+import { useGetElementByIdParam } from '../Utils/useGetElementByIdParam';
+import { useIdParam } from '../Utils/useIdParam';
 import './ArtifactsDetails.css';
 
 interface ArtifactsDetailsProps {
@@ -10,23 +12,13 @@ interface ArtifactsDetailsProps {
 
 export const ArtifactsDetails: React.FC<ArtifactsDetailsProps> = ({ list }) => {
 
-    const { id: idString } = useParams<{ id: string }>();
-    const id = parseFloat(idString);
-
-
-    const artifact = list.find((elem) => {
-        if (elem.id === id) {
-            return true;
-        } else {
-            return false;
-        }
-    })
-
-    if (!artifact) {
-        return <Redirect to="/Error404" />
-    }
+    
+    //Busco el elemento por su id que viene en el parametro en la lista
+    const id= useIdParam();
+    const artifact= useGetElementByIdParam(list);
 
     //Character data
+    if(!artifact){return null}
     const { name, mainImg, twoItems, fourItems, domain, notes } = artifact;
 
     return <div className="ArtifactsDetails">
