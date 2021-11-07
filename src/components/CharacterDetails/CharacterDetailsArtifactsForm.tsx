@@ -8,7 +8,7 @@ export interface CharacterDetailsArtifactsFormProps {
       type: "create" | "edit" | "none";
       editId: number | null;
       onCreate: (newArtifact: ArtifactsElemObj) => void;
-      onEdit: (id: number, editArtifact: {name: string, mainImg: string, arena: string, copa: string, tiara: string, twoItems: string, fourItems: string, domain: string, notes: string}) => void;
+      onEdit: (id: number, editArtifact: ArtifactsElemObj) => void;
 
 }
 
@@ -105,7 +105,7 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
                   && tiaraValid) {
 
                   if (editId !== null) {
-                        onEdit(editId, {name: name, mainImg: mainImg, arena: arena, copa: caliz, tiara: tiara, twoItems: twoItems, fourItems: fourItems, domain: domain, notes: notes})
+                        onEdit(editId, {id: editId, name: name, mainImg: mainImg, arena: arena, copa: caliz, tiara: tiara, twoItems: twoItems, fourItems: fourItems, domain: domain, notes: notes})
                   }
 
             } else {

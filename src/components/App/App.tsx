@@ -17,6 +17,9 @@ import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
 import { WeaponElemObj } from '../types/WeaponElemObj';
 import { ArtifactsDetails } from '../ArtifactsDetails/ArtifactsDetails';
 import { WeaponDetails } from '../WeaponDetails/WeaponDetails';
+import { Footer } from '../Footer/Footer';
+import { Bar } from 'react-chartjs-2';
+import { TitleSection } from '../TitleSection/TitleSection';
 
 
 /*type CharacterElemObj= CharacterProps &{
@@ -29,8 +32,6 @@ function App() {
 
   const [formType, setFormType] = React.useState<'create' | 'edit'>('create');
   const [editIdCharacter, setEditIdCharacter] = React.useState<number | null>(null);
-
-
 
 
   //Estado del arreglo de personajes
@@ -85,7 +86,7 @@ function App() {
   })
 
 
-  //artefactos array
+  //Array artefactos
   let artifactArray: ArtifactsElemObj[] = [];
 
   CharactersElems.forEach((elem) => {
@@ -95,22 +96,22 @@ function App() {
   })
 
 
-  //weapon elem y array 
+  //Weapon elem y array 
   let weaponElem: WeaponElemObj | undefined;
   let weaponArray: WeaponElemObj[] = [];
 
-  
+
   CharactersElems.forEach((elem) => {
     weaponArray.push(elem.weapon)
   });
 
-  const mandoble= weaponArray.filter((w)=>{
+  const mandoble = weaponArray.filter((w) => {
     if (w?.type === "Mandoble") {
       return true
     }
   })
 
-  const lanza= weaponArray.filter((w)=>{
+  const lanza = weaponArray.filter((w) => {
     if (w?.type === "Lanza") {
       return true
     }
@@ -119,14 +120,12 @@ function App() {
 
   CharactersElems.forEach((elem) => {
     if (elem) {
-
       if (elem.weapon) {
         weaponElem = elem.weapon;
       }
     }
   });
 
-  console.log(weaponArray)
 
   const handleCreate = (newCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string }) => {
     console.log('Se creo', newCharacter)
@@ -223,11 +222,10 @@ function App() {
 
     setCharacters(characterCopy);
 
-    //console.log(CharactersElems.artifacts)
   }
 
 
-  //Artefactos
+  //Weapon
   const handleCreateWeapon = (characterId: number, newWeapon: WeaponElemObj) => {
 
     const characterCopy = CharactersElems.slice();
@@ -245,6 +243,34 @@ function App() {
 
     setCharacters(characterCopy);
   }
+
+
+  const data = {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
 
 
@@ -265,8 +291,13 @@ function App() {
               url="/artifactsList"
             />
             <Link
-              text="FORM"
+              text="FORMULARIO"
               url="/characterForm"
+            />
+
+            <Link
+              text="ESTADÍSTICAS"
+              url="/statistics"
             />
             <img src={`${process.env.PUBLIC_URL}/img/userIcon.png`} className="userIcon"></img>
 
@@ -392,7 +423,7 @@ function App() {
                 <MainTitle
                   text="ARMAS"
                 />
-                {mandoble.length>0 &&
+                {mandoble.length > 0 &&
                   <h2 className="titlesSections normalTitles">MANDOBLE</h2>
                 }
 
@@ -408,17 +439,18 @@ function App() {
                 </article>
 
 
-                {lanza.length>0  &&
+                {lanza.length > 0 &&
                   <h2 className="titlesSections normalTitles">LANZA</h2>
                 }
 
                 <article className="componentsDiv">
-                 {lanza.map((elem) => {
+                  {lanza.map((elem) => {
                     return <Weapon
                       key={elem.id}
                       id={elem.id}
                       name={elem.name}
                       img={elem.mainImg}
+
                     />
                   })}
                 </article>
@@ -461,13 +493,50 @@ function App() {
               }
             </Route>
 
+            <Route path="/statistics">
+              <article className="info">
+
+                <MainTitle
+                  text="ESTADÍSTICAS"
+                />
+
+                <TitleSection
+                  text="ELEMENTOS"
+                />
+                
+                <Bar data={data} options={
+                  {
+                    indexAxis: 'y',
+                    // Elements options apply to all of the options unless overridden in a dataset
+                    // In this case, we are setting the border of each horizontal bar to be 2px wide
+                    elements: {
+                      bar: {
+                        borderWidth: 2,
+                      },
+                    },
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                      title: {
+                        display: true,
+                        text: 'Elementos de los personajes',
+                      },
+                    },
+                  }
+                } />
+              </article>
+            </Route>
+
             <Route path="/error404">
               <Error404></Error404>
             </Route>
+
             <Redirect to="/error404" />
           </Switch>
-
         </header>
+        <Footer />
       </div>
     </HashRouter>
   );

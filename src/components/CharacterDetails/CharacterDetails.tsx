@@ -29,12 +29,17 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
     const { id: idString } = useParams<{ id: string }>();
     const id = parseFloat(idString);
 
-    let nameArtifact, florArtifact, arenaArtifact, copaArtifact, tiaraArtifact, idArtifact;
+    // let nameArtifact, florArtifact, arenaArtifact, copaArtifact, tiaraArtifact, idArtifact;
 
-     //Estado del arreglo de personajes
-    const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>(list)
 
-    //estados artifacts edit
+    //Estado del arreglo de personajes
+    const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>(list);
+
+    //estados weapon
+    const [formWeaponType, setFormWeaponType] = React.useState<'create' | 'edit' | 'none'>('create');
+    const [editIdWeapon, setEditIdWeapon] = React.useState<number | null>(null);
+
+    //estados artifacts 
     const [formArtifactType, setFormArtifactType] = React.useState<'create' | 'edit' | 'none'>('create');
     const [editIdArtifact, setEditIdArtifact] = React.useState<number | null>(null);
 
@@ -53,20 +58,11 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
         return <Redirect to="/Error404" />
     }
 
-    //Character data
+    //All character data
     const { name, img, history, role, constelacion, city, artifacts, weapon, trailer } = character;
 
-    //artifacts data
-    artifacts.forEach((a) => {
-        idArtifact = a.id;
-        nameArtifact = a.name;
-        florArtifact = a.mainImg;
-        arenaArtifact = a.arena;
-        copaArtifact = a.copa;
-        tiaraArtifact = a.tiara;
-    })
 
-
+    ///////Artifacts
     ArtifactElems = artifacts;
 
     const handleCreateArtifact = (newArtifact: ArtifactsElemObj) => {
@@ -99,8 +95,10 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
         console.log('estas en edit', editId)
     }
 
-    const handleEditArtifact = (id: number, editArtifact: {name: string, mainImg: string, arena: string, copa: string, tiara: string, twoItems: string, fourItems: string, domain: string, notes: string}) => {
+    const handleEditArtifact = (id: number, editArtifact: ArtifactsElemObj) => {
         console.log(id, editArtifact.name)
+
+        const characterCopy = list.slice();
 
         const ArtifactCopy = artifacts.slice();
         const editIndex = artifacts.findIndex((elem) => {
@@ -110,17 +108,23 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
             return false
         });
 
-        ArtifactCopy[editIndex] = {
-            ...artifacts[editIndex],
-            ...editArtifact,
+        characterCopy[editIndex] = {
+            ...CharactersElems[editIndex],
+            artifacts: [
+                ...CharactersElems[editIndex].artifacts,
+                editArtifact,
+            ]
         }
 
-        setArtifacts(ArtifactCopy);
+
         setFormArtifactType("none");
+
+        setCharacters(characterCopy);
+        console.log(ArtifactCopy)
     }
 
 
-    /////weapon data
+    /////////Weapon 
     let weaponType, weaponName, weaponId;
 
     if (weapon) {
@@ -133,16 +137,46 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
         onCreateWeapon(id, newWeapon)
     }
 
-    const handleDeleteWeapon = (deleteId: number) => {
-        const characterElemCopy = CharactersElems.filter((elem) => {
-    
-          
-        });
-    
-        setCharacters(characterElemCopy);
-      }
 
-    
+    const handleBeginEditWeapon = (editId: number) => {
+        setEditIdWeapon(editId);
+        setFormWeaponType("edit");
+        console.log('estas en edit', editId)
+    }
+
+
+    const handleEditWeapon = (id: number, editWeapon: WeaponElemObj) => {
+        console.log(id, editWeapon.name)
+
+        const characterCopy = CharactersElems.slice();
+        const editIndex = CharactersElems.findIndex((elem) => {
+            if (elem.id === editIdWeapon) {
+                return true;
+            }
+            return false
+        });
+
+        characterCopy[editIndex] = {
+            ...CharactersElems[editIndex],
+            ...editWeapon,
+        }
+
+        setCharacters(characterCopy);
+    }
+
+
+
+    const handleDeleteWeapon = (deleteId: number) => {
+
+        const characterElemCopy = CharactersElems.filter((elem) => {
+
+        });
+
+        setCharacters(characterElemCopy);
+    }
+
+
+
     return (<div className="characterDetails">
         <TitleSection
             text="PERFIL"
@@ -193,22 +227,26 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
                     <img className="noSomething" src={`${process.env.PUBLIC_URL}/img/noWeapon.png`}></img>
                     <CharacterDetailsWeaponForm
                         onCreate={handleCreateWeapon}
+                        onEdit={handleEditWeapon}
                     />
                 </section>
             }
 
             {weaponName &&
                 <section className="weaponElem">
-                    {(weaponId &&weaponType && weaponName)&&
-                    <CharacterDetailsWeapon
-                        id={weaponId}
-                        name={weapon.name}
-                        mainImg={weapon.mainImg}
-                        history={weapon.history}
-                        stat={weapon.stat}
-                        passive={weapon.passive}
-                    />
-                }
+                    {(weaponId && weaponType && weaponName) &&
+                        <CharacterDetailsWeapon
+                            key={weaponId}
+                            id={weaponId}
+                            name={weapon.name}
+                            mainImg={weapon.mainImg}
+                            history={weapon.history}
+                            stat={weapon.stat}
+                            passive={weapon.passive}
+                            onEdit={handleBeginEditWeapon}
+                            onDelete={handleDeleteWeapon}
+                        />
+                    }
                 </section>
             }
         </div>
@@ -241,16 +279,18 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
             {(formArtifactType == "none" || formArtifactType == "create") &&
 
                 <section className="artifactElem">
-                    {(idArtifact && nameArtifact && florArtifact && arenaArtifact && copaArtifact && tiaraArtifact) &&
-                        <CharacterDetailsArtifact
-                            id={idArtifact}
-                            name={nameArtifact}
-                            imgFlor={florArtifact}
-                            arena={arenaArtifact}
-                            copa={copaArtifact}
-                            tiara={tiaraArtifact}
+                    {artifacts.map((elem) => {
+                        return <CharacterDetailsArtifact
+                            key={elem.id}
+                            id={elem.id}
+                            name={elem.name}
+                            imgFlor={elem.mainImg}
+                            arena={elem.arena}
+                            copa={elem.copa}
+                            tiara={elem.tiara}
                             onEdit={handleBeginEditArtifact}
-                        />}
+                        />
+                    })}
                 </section>
             }
         </div>

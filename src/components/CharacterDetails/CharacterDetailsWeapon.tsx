@@ -9,6 +9,8 @@ interface CharacterDetailsWeaponProps {
     history: string;
     stat: string;
     passive: string;
+    onDelete?: (id: number) => void;
+    onEdit?: (id: number) => void
 }
 
 export const CharacterDetailsWeapon: React.FC<CharacterDetailsWeaponProps> = ({ id, name, mainImg, history, stat, passive }) => {
@@ -29,13 +31,18 @@ export const CharacterDetailsWeapon: React.FC<CharacterDetailsWeaponProps> = ({ 
             <div className="mainInfoWeapon--textDiv">
                 <p className="mainInfoArtifact--text">{name}</p>
                 <p className="subtitleMainInfo">{stat}</p>
+
+                <div className="buttonsWeaponDiv">
+                    <button className="buttonComponents button">EDITAR</button>
+                    <button className="buttonComponents button deleteButton">ELIMINAR</button>
+                </div>
             </div>
         </section>
 
         <div className="detailsWeapon">
-                 <p className="infoStatsTitle">{"Efecto pasivo"}</p>
-                 <p className="infoStatsText">{passive}</p>
-            </div>
+            <p className="infoStatsTitle">{"Efecto pasivo"}</p>
+            <p className="infoStatsText">{passive}</p>
+        </div>
 
     </div>;
 

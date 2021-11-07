@@ -4,6 +4,7 @@ import { WeaponElemObj } from '../types/WeaponElemObj';
 
 interface CharacterDetailsWeaponFormProps {
     onCreate: (newWeapon: WeaponElemObj) => void;
+    onEdit: (id: number, editWeapon: WeaponElemObj) => void;
 }
 
 export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProps> = ({ onCreate }) => {
@@ -105,7 +106,6 @@ export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProp
 
         <label>
             Tipo de arma
-            Ciudad natal
             <select name="arma" value={type} onChange={handleTypeChange} >
                 <option value=" ">ELIGE EL TIPO DE ARMA</option>
                 <option value="Mandoble">MANDOBLE</option>

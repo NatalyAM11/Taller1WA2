@@ -1,0 +1,43 @@
+.footer{
+    width: 100%;
+    display: flex;
+    margin-top: 200px;
+    background-color: #292929;
+    padding: 65px 0px;
+}
+
+.footerImgDiv{
+    width: 40%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footerImg{
+    height: 25%;
+    margin-top: 48px;
+}
+
+.footerTextDiv{
+    width: 45%;
+    text-align: left;
+    margin-left: 75px;
+}
+
+.footerText{
+    font-family: Raleway;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.footerCopyright{
+    color: #FFFFFF;
+    margin-bottom: 15px;
+}
+
+.footerTextBody{
+    color: #9F9F9F;
+}
+
+.footerLogos{
+    margin-top: 30px;
+}

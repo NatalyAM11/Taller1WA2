@@ -113,7 +113,7 @@ export const CharacterForm: React.FC<CharacterFormProps> = ({ editId, type, onCr
     /*onChange={handleElementCChange} */
     return <form className="characterForm" onSubmit={handleSubmit}>
 
-        <p className="formIntro">{type === "create" ? "Agrega a los personajes que te acompañaran en tus siguientes aventuras" : "Edita los detos del personaje"}</p>
+        <p className="formIntro">{type === "create" ? "Agrega a los personajes que te acompañaran en tus siguientes aventuras" : "Edita los datos del personaje"}</p>
 
         <label>
             Nombre
