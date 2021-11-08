@@ -3,46 +3,49 @@ import { WeaponElemObj } from '../types/WeaponElemObj';
 
 
 interface CharacterDetailsWeaponFormProps {
+    typeWF: "create" | "edit" | "none";
+    editId: number | null;
+    weaponElem: WeaponElemObj,
     onCreate: (newWeapon: WeaponElemObj) => void;
     onEdit: (id: number, editWeapon: WeaponElemObj) => void;
 }
 
-export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProps> = ({ onCreate }) => {
+export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProps> = ({ typeWF, editId, weaponElem, onCreate, onEdit }) => {
 
 
     const [formSubmitted, setFormSubmitted] = React.useState(false);
 
-    const [name, setName] = React.useState(' ');
+    const [name, setName] = React.useState(weaponElem?.name || ' ');
     const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setName(event.target.value);
     }
 
-    const [mainImg, setMainImg] = React.useState(' ');
+    const [mainImg, setMainImg] = React.useState(weaponElem?.mainImg || ' ');
     const handleMainImgChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setMainImg(event.target.value)
     }
 
-    const [history, setHistory] = React.useState(' ');
-    const handleHistoryChange:  React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+    const [history, setHistory] = React.useState(weaponElem?.history || ' ');
+    const handleHistoryChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
         setHistory(event.target.value)
     }
 
-    const [type, setType] = React.useState(' ');
+    const [type, setType] = React.useState(weaponElem?.type || ' ');
     const handleTypeChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setType(event.target.value)
     }
 
-    const [stat, setStat] = React.useState(' ');
+    const [stat, setStat] = React.useState(weaponElem?.stat || ' ');
     const handleStatChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setStat(event.target.value)
     }
 
-    const [passive, setPassive] = React.useState(' ');
-    const handlePassiveChange: React.ChangeEventHandler<HTMLTextAreaElement>= (event) => {
+    const [passive, setPassive] = React.useState(weaponElem?.passive || ' ');
+    const handlePassiveChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
         setPassive(event.target.value)
     }
 
-    
+
     const nameValid = name.length > 1;
     const mainImgValid = mainImg.length > 1;
     const historyValid = history.length > 10;
@@ -55,28 +58,30 @@ export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProp
 
         setFormSubmitted(true);
 
-         if (nameValid && mainImgValid && historyValid && typeValid
-               && statValid && passiveValid) {
-               const newWeapon: WeaponElemObj = {
-                     id: Math.random(),
-                     name: name,
-                     mainImg: mainImg,
-                     history: history,
-                     type: type,
-                     stat: stat,
-                     passive: passive
-               }
- 
-               onCreate(newWeapon)
-               setFormSubmitted(false);
-               console.log(newWeapon)
-         }
+        if (nameValid && mainImgValid && historyValid && typeValid
+            && statValid && passiveValid) {
+            const newWeapon: WeaponElemObj = {
+                id: Math.random(),
+                name: name,
+                mainImg: mainImg,
+                history: history,
+                type: type,
+                stat: stat,
+                passive: passive
+            }
+
+            onCreate(newWeapon)
+            setFormSubmitted(false);
+            console.log(newWeapon)
+        }
     }
 
 
 
 
     return (<form onSubmit={handleSubmit} className="weaponForm">
+
+        <p className="formIntro">{typeWF === "create" ? "Agrega el arma correspondiente a este personaje" : "Edita los datos del arma"}</p>
 
         <label>
             Nombre del arma
@@ -95,7 +100,7 @@ export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProp
                 <p className="CharacterForm_error">Debes escribir el URL completo de la imagen</p>
             }
         </label>
-        
+
         <label>
             Historia del arma
             <textarea className="largeInput" name="perfil" onChange={handleHistoryChange} value={history}></textarea>
@@ -135,9 +140,9 @@ export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProp
                 <p className="CharacterForm_error">Debes escribir el efecto pasivo del arma</p>
             }
         </label>
-        
 
-        <button className="button">AÑADIR ARMA</button>
+
+        <button className="button">{typeWF=== "create" ? "AÑADIR ARMA" : "GUARDAR CAMBIOS"}</button>
 
     </form>)
 

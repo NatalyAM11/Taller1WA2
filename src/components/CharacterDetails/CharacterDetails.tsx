@@ -1,8 +1,6 @@
 import React from 'react';
-import { Redirect, useParams } from 'react-router';
 import './CharacterDetails.css';
 import { CharacterElemObj } from '../types/CharacterElemObj';
-import { parse } from 'path';
 import { TitleSection } from '../TitleSection/TitleSection';
 import CharacterDetailsArtifactsForm from './CharacterDetailsArtifactsForm';
 import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
@@ -12,7 +10,6 @@ import { CharacterDetailsWeaponForm } from './CharacterDetailsWeaponForm';
 import { WeaponElemObj } from '../types/WeaponElemObj';
 import { CharacterDetailsWeapon } from './CharacterDetailsWeapon';
 import { useHistory } from 'react-router';
-import { type } from 'os';
 import { useGetElementByIdParam } from '../Utils/useGetElementByIdParam';
 import { useIdParam } from '../Utils/useIdParam';
 
@@ -29,28 +26,33 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
     const historyPages = useHistory();
 
     //Busco el elemento por su id que viene en el parametro en la lista
-    const id= useIdParam();
-    const character= useGetElementByIdParam(list);
+    const id = useIdParam();
+    const character = useGetElementByIdParam(list);
 
     //Estado del arreglo de personajes
     const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>(list);
 
     //estados weapon
-    const [formWeaponType, setFormWeaponType] = React.useState<'create' | 'edit' | 'none'>('create');
+    const [formWeaponType, setFormWeaponType] = React.useState<'create' | 'edit' | 'none'>('none');
     const [editIdWeapon, setEditIdWeapon] = React.useState<number | null>(null);
+    const handleWeaponTypeChange: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+        setFormWeaponType("create")
+    }
 
     //estados artifacts 
-    const [formArtifactType, setFormArtifactType] = React.useState<'create' | 'edit' | 'none'>('create');
+    const [formArtifactType, setFormArtifactType] = React.useState<'create' | 'edit' | 'none'>('none');
     const [editIdArtifact, setEditIdArtifact] = React.useState<number | null>(null);
+    const handleArtifactTypeChange: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+        setFormArtifactType("create")
+    }
 
     let [ArtifactElems, setArtifacts] = React.useState<ArtifactsElemObj[]>([]);
 
-
+    console.log(formArtifactType)
 
     //All character data
-    if(!character){return null}
+    if (!character) { return null }
     const { name, img, history, role, constelacion, city, artifacts, weapon, trailer } = character;
-
 
     ///////Artifacts
     ArtifactElems = artifacts;
@@ -74,9 +76,9 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
         ]
 
         //onCreateArtifact(id, newArtifact)
-        //setFormArtifactType("none");
         setArtifacts(newArrayArtifacts);
-        onCreateArtifact(id, newArtifact)
+        onCreateArtifact(id, newArtifact);
+        setFormArtifactType("none")
     }
 
     const handleBeginEditArtifact = (editId: number) => {
@@ -89,8 +91,8 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
         console.log(id, editArtifact.name)
 
         const characterCopy = list.slice();
-
         const ArtifactCopy = artifacts.slice();
+
         const editIndex = artifacts.findIndex((elem) => {
             if (elem.id === editIdArtifact) {
                 return true;
@@ -98,20 +100,33 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
             return false
         });
 
-        characterCopy[editIndex] = {
-            ...CharactersElems[editIndex],
-            artifacts: [
-                ...CharactersElems[editIndex].artifacts,
-                editArtifact,
-            ]
+        ArtifactCopy[editIndex] = {
+            ...artifacts[editIndex],
+            ...editArtifact,
         }
 
+        /* characterCopy[id] = {
+             ...CharactersElems[id],
+             ...ArtifactCopy,
+         }*/
 
-        setFormArtifactType("none");
+        /*characterCopy[id].artifacts = {
+            ...ArtifactCopy
+        }*/
 
+        setArtifacts(ArtifactCopy);
         setCharacters(characterCopy);
+        setFormArtifactType("none");
+        setEditIdArtifact(null);
+
         console.log(ArtifactCopy)
+        console.log(characterCopy)
     }
+
+    const handleDeleteArtifict = (deleteId: number) => {
+
+    }
+
 
 
     /////////Weapon 
@@ -125,6 +140,7 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
 
     const handleCreateWeapon = (newWeapon: WeaponElemObj) => {
         onCreateWeapon(id, newWeapon)
+        setFormWeaponType("none");
     }
 
 
@@ -152,18 +168,15 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
         }
 
         setCharacters(characterCopy);
+        setFormWeaponType("none");
     }
 
 
 
     const handleDeleteWeapon = (deleteId: number) => {
 
-        const characterElemCopy = CharactersElems.filter((elem) => {
-
-        });
-
-        setCharacters(characterElemCopy);
     }
+
 
 
 
@@ -206,84 +219,97 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
 
         </div>
 
-        <div className="weaponDiv">
+        <section className="weaponDiv">
 
             <TitleSection
                 text="ARMA"
             />
 
-            {!weaponName &&
-                <section className="weaponFormDiv">
-                    <img className="noSomething" src={`${process.env.PUBLIC_URL}/img/noWeapon.png`}></img>
+            {(formWeaponType == "none" && !weapon?.name ) &&
+                <button className="button buttonAddComponent" onClick={handleWeaponTypeChange}>AÑADIR</button>}
+
+
+            <section className="weaponFormDiv">
+
+                {!weapon?.name &&
+                    <img className="noSomething" src={`${process.env.PUBLIC_URL}/img/noWeapon.png`}></img>}
+
+                {(formWeaponType == "create" || formWeaponType == "edit") &&
                     <CharacterDetailsWeaponForm
+                        typeWF={formWeaponType}
+                        editId={editIdWeapon}
+                        weaponElem={weapon}
                         onCreate={handleCreateWeapon}
                         onEdit={handleEditWeapon}
                     />
-                </section>
-            }
+                }
+            </section>
 
-            {weaponName &&
-                <section className="weaponElem">
-                    {(weaponId && weaponType && weaponName) &&
-                        <CharacterDetailsWeapon
-                            key={weaponId}
-                            id={weaponId}
-                            name={weapon.name}
-                            mainImg={weapon.mainImg}
-                            history={weapon.history}
-                            stat={weapon.stat}
-                            passive={weapon.passive}
-                            onEdit={handleBeginEditWeapon}
-                            onDelete={handleDeleteWeapon}
-                        />
-                    }
-                </section>
-            }
-        </div>
+                {formWeaponType == "none" &&
+                    <section className="weaponElem">
+                        {(weaponId && weaponType && weaponName) &&
+                            <CharacterDetailsWeapon
+                                key={weaponId}
+                                id={weaponId}
+                                name={weapon.name}
+                                mainImg={weapon.mainImg}
+                                history={weapon.history}
+                                stat={weapon.stat}
+                                passive={weapon.passive}
+                                onEdit={handleBeginEditWeapon}
+                                onDelete={handleDeleteWeapon}
+                            />
+                        }
+                    </section>
+                }
+        </section>
 
 
-        <div className="ArtifactDiv">
+        <section className="ArtifactDiv">
 
             <TitleSection
                 text="ARTEFACTOS"
             />
 
             {formArtifactType == "none" &&
-                <button className="button buttonAddComponent">AÑADIR</button>}
+                <button className="button buttonAddComponent" onClick={handleArtifactTypeChange}>AÑADIR</button>}
 
-            {(formArtifactType == "create" || formArtifactType == "edit") &&
-                <div className="artifactFormDiv">
 
-                    {artifacts.length < 1 &&
-                        <img className="noSomething" src={`${process.env.PUBLIC_URL}/img/noArtifact.png`}></img>
-                    }
+            <div className="artifactFormDiv">
+
+                {artifacts.length < 1 &&
+                    <img className="noSomething" src={`${process.env.PUBLIC_URL}/img/noArtifact.png`}></img>
+                }
+
+                {(formArtifactType == "create" || formArtifactType == "edit") &&
                     <CharacterDetailsArtifactsForm
                         type={formArtifactType}
                         editId={editIdArtifact}
+                        artifactElem={artifacts}
                         onCreate={handleCreateArtifact}
                         onEdit={handleEditArtifact}
                     />
-                </div>
-            }
+                }
+            </div>
 
-            {(formArtifactType == "none" || formArtifactType == "create") &&
 
-                <section className="artifactElem">
-                    {artifacts.map((elem) => {
-                        return <CharacterDetailsArtifact
-                            key={elem.id}
-                            id={elem.id}
-                            name={elem.name}
-                            imgFlor={elem.mainImg}
-                            arena={elem.arena}
-                            copa={elem.copa}
-                            tiara={elem.tiara}
-                            onEdit={handleBeginEditArtifact}
-                        />
-                    })}
-                </section>
-            }
-        </div>
+            <section className="artifactElem">
+                {artifacts.map((elem) => {
+                    return <CharacterDetailsArtifact
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        imgFlor={elem.mainImg}
+                        arena={elem.arena}
+                        copa={elem.copa}
+                        tiara={elem.tiara}
+                        onEdit={handleBeginEditArtifact}
+                        onDelete={handleDeleteArtifict}
+                    />
+                })}
+            </section>
+
+        </section>
 
 
 

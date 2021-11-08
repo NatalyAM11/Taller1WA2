@@ -7,58 +7,63 @@ import { ArtifactsElemObj } from '../types/ArtifactsElemObj';
 export interface CharacterDetailsArtifactsFormProps {
       type: "create" | "edit" | "none";
       editId: number | null;
+      artifactElem: ArtifactsElemObj[],
       onCreate: (newArtifact: ArtifactsElemObj) => void;
       onEdit: (id: number, editArtifact: ArtifactsElemObj) => void;
-
 }
 
 
-export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFormProps> = ({ type, editId, onCreate, onEdit }) => {
+export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFormProps> = ({ type, editId, artifactElem, onCreate, onEdit }) => {
 
+      const editA= artifactElem.find((elem)=>{
+            return elem.id===editId
+      })
 
+      console.log(type)
+    
       const [formSubmitted, setFormSubmitted] = React.useState(false);
 
-      const [name, setName] = React.useState(' ');
+      const [name, setName] = React.useState(editA?.name || ' ');
       const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
             setName(event.target.value);
       }
 
-      const [mainImg, setMainImg] = React.useState(' ');
+      const [mainImg, setMainImg] = React.useState(editA?.mainImg || ' ');
       const handleMainImgChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
             setMainImg(event.target.value)
       }
 
-      const [arena, setArena] = React.useState(' ');
+      const [arena, setArena] = React.useState(editA?.arena || ' ');
       const handleArenaChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
             setArena(event.target.value)
       }
 
-      const [caliz, setCaliz] = React.useState(' ');
+      const [caliz, setCaliz] = React.useState(editA?.copa || ' ');
       const handleCalizChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
             setCaliz(event.target.value)
       }
 
-      const [tiara, setTiara] = React.useState(' ');
+      const [tiara, setTiara] = React.useState(editA?.tiara || ' ');
       const handleTiaraChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
             setTiara(event.target.value)
       }
 
-      const [twoItems, setTwoItems] = React.useState(' ');
+      const [twoItems, setTwoItems] = React.useState(editA?.twoItems || ' ');
       const handleTwoItemsChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
             setTwoItems(event.target.value)
       }
 
-      const [fourItems, setFourItems] = React.useState(' ');
+      const [fourItems, setFourItems] = React.useState(editA?.fourItems || ' ');
       const handleFourItemsChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
             setFourItems(event.target.value)
       }
 
-      const [domain, setDomain] = React.useState(' ');
+      const [domain, setDomain] = React.useState(editA?.domain || ' ');
       const handleDomainChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
             setDomain(event.target.value)
       }
 
-      const [notes, setNotes] = React.useState(' ');
+      const [notes, setNotes] = React.useState(editA?.notes || ' ');
       const handleNotesChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
             setNotes(event.target.value)
       }

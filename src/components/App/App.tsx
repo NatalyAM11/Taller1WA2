@@ -119,6 +119,12 @@ function App() {
     }
   })
 
+  const espada = weaponArray.filter((w) => {
+    if (w?.type === "Espada") {
+      return true
+    }
+  })
+
 
   CharactersElems.forEach((elem) => {
     if (elem) {
@@ -200,7 +206,7 @@ function App() {
 
     setCharacters(characterCopy);
     setFormType("create");
-    setEditIdCharacter(null)
+    setEditIdCharacter(null);
   }
 
 
@@ -277,298 +283,315 @@ function App() {
   };
 
 
-  console.log(getChartArtifactsData(CharactersElems))
   const artifactsData = getChartArtifactsData(CharactersElems);
 
 
 
   return (
 
-  
-      <div className="App">
-        <header className="App-header">
-          <nav className="nav">
-            <RouterLink to="/"><img src={`${process.env.PUBLIC_URL}/img/navLogo.png`} className="navLogo"></img></RouterLink>
 
-            <Link
-              text="ARMAS"
-              url="/weaponsList"
-            />
-            <Link
-              text="ARTEFACTOS"
-              url="/artifactsList"
-            />
-            <Link
-              text="FORMULARIO"
-              url="/characterForm"
-            />
+    <div className="App">
+      <header className="App-header">
+        <nav className="nav">
+          <RouterLink to="/"><img src={`${process.env.PUBLIC_URL}/img/navLogo.png`} className="navLogo"></img></RouterLink>
 
-            <Link
-              text="ESTADÍSTICAS"
-              url="/statistics"
-            />
-            <img src={`${process.env.PUBLIC_URL}/img/userIcon.png`} className="userIcon"></img>
+          <Link
+            text="ARMAS"
+            url="/weaponsList"
+          />
+          <Link
+            text="ARTEFACTOS"
+            url="/artifactsList"
+          />
+          <Link
+            text="FORMULARIO"
+            url="/characterForm"
+          />
 
-          </nav>
+          <Link
+            text="ESTADÍSTICAS"
+            url="/statistics"
+          />
+          <img src={`${process.env.PUBLIC_URL}/img/userIcon.png`} className="userIcon"></img>
+
+        </nav>
 
 
-          <Switch>
-            <Route path="/" exact>
-              <img src={`${process.env.PUBLIC_URL}/img/bannerImg.jpg`} className="banner"></img>
+        <Switch>
+          <Route path="/" exact>
+            <img src={`${process.env.PUBLIC_URL}/img/bannerImg.jpg`} className="banner"></img>
 
-              <article className="info">
-                <MainTitle
-                  text="PERSONAJES"
-                />
+            <article className="info">
+              <MainTitle
+                text="PERSONAJES"
+              />
 
-                {pyro.length > 0 &&
+              {pyro.length > 0 &&
+                <>
                   <ElementTitle
                     text="PYRO"
                     img="pyroIcon.png"
                   />
-                }
 
-                <article className="componentsDiv">
-                  {pyro.map((elem) => {
-                    return <Character
-                      key={elem.id}
-                      id={elem.id}
-                      name={elem.name}
-                      elementC={elem.elementC}
-                      img={elem.img}
-                      history={elem.history}
-                      role={elem.role}
-                      constelacion={elem.constelacion}
-                      trailer={elem.trailer}
-                      onDelete={handleDeleteCharacter}
-                      onEdit={handleBeginEdit}
-                    />
-                  })}
-                </article>
+                  <article className="componentsDiv">
+                    {pyro.map((elem) => {
+                      return <Character
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        elementC={elem.elementC}
+                        img={elem.img}
+                        history={elem.history}
+                        role={elem.role}
+                        constelacion={elem.constelacion}
+                        trailer={elem.trailer}
+                        onDelete={handleDeleteCharacter}
+                        onEdit={handleBeginEdit}
+                      />
+                    })}
+                  </article>
+                </>
+              }
 
-                {electro.length > 0 &&
+              {electro.length > 0 &&
+                <>
                   <ElementTitle
                     text="ELECTRO"
                     img="pyroIcon.png"
                   />
-                }
-
-                <article className="componentsDiv">
-                  {electro.map((elem) => {
-                    return <Character
-                      key={elem.id}
-                      id={elem.id}
-                      name={elem.name}
-                      elementC={elem.elementC}
-                      img={elem.img}
-                      history={elem.history}
-                      role={elem.role}
-                      constelacion={elem.constelacion}
-                      trailer={elem.trailer}
-                      onDelete={handleDeleteCharacter}
-                      onEdit={handleBeginEdit}
-                    />
-                  })}
-                </article>
-
-
-                {cryo.length > 0 &&
-                  <ElementTitle
-                    text="CRYO"
-                    img="pyroIcon.png"
-                  />
-                }
-
-                <article className="componentsDiv">
-                  {cryo.map((elem) => {
-                    return <Character
-                      key={elem.id}
-                      id={elem.id}
-                      name={elem.name}
-                      elementC={elem.elementC}
-                      img={elem.img}
-                      history={elem.history}
-                      role={elem.role}
-                      constelacion={elem.constelacion}
-                      trailer={elem.trailer}
-                      onDelete={handleDeleteCharacter}
-                      onEdit={handleBeginEdit}
-                    />
-                  })}
-                </article>
-
-              </article>
-            </Route>
-
-            <Route path="/characterForm">
-              <article className="info">
-
-                <img src={`${process.env.PUBLIC_URL}/img/bannerForm.png`} className="banner"></img>
-                <MainTitle
-                  text="FORMULARIO"
-                />
-
-                <CharacterForm
-                  editId={editIdCharacter}
-                  characterElem={CharactersElems}
-                  type={formType}
-                  onCreate={handleCreate}
-                  onEdit={handleEdit}
-                />
-              </article>
-            </Route>
-
-            <Route path="/characterDetails/:id">
-              <CharacterDetails
-                list={CharactersElems}
-                onCreateArtifact={handleCreateArtifact}
-                onCreateWeapon={handleCreateWeapon}
-              />
-            </Route>
-
-
-            <Route path="/weaponsList">
-              <article className="info">
-                <MainTitle
-                  text="ARMAS"
-                />
-                {mandoble.length > 0 &&
-                  <h2 className="titlesSections normalTitles">MANDOBLE</h2>
-                }
-
-                <article className="componentsDiv">
-                  {mandoble.map((elem) => {
-                    return <Weapon
-                      key={elem.id}
-                      id={elem.id}
-                      name={elem.name}
-                      img={elem.mainImg}
-                    />
-                  })}
-                </article>
-
-
-                {lanza.length > 0 &&
-                  <h2 className="titlesSections normalTitles">LANZA</h2>
-                }
-
-                <article className="componentsDiv">
-                  {lanza.map((elem) => {
-                    return <Weapon
-                      key={elem.id}
-                      id={elem.id}
-                      name={elem.name}
-                      img={elem.mainImg}
-
-                    />
-                  })}
-                </article>
-              </article>
-
-            </Route>
-
-            <Route path="/artifactsList">
-              <article className="info">
-                <MainTitle
-                  text="ARTEFACTOS"
-                />
-
-                <article className="componentsDiv">
-                  {artifactArray.map((elem) => {
-                    return <Artifacts
-                      key={elem.id}
-                      id={elem.id}
-                      name={elem.name}
-                      mainImg={elem.mainImg}
-                    />
-                  })}
-                </article>
-              </article>
-            </Route>
-
-
-
-            <Route path="/artifactsDetails/:id">
-              <ArtifactsDetails
-                list={artifactArray}
-              />
-            </Route>
-
-            <Route path="/weaponDetails/:id">
-              {weaponElem &&
-                <WeaponDetails
-                  weapon={weaponElem}
-                />
+                  <article className="componentsDiv">
+                    {electro.map((elem) => {
+                      return <Character
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        elementC={elem.elementC}
+                        img={elem.img}
+                        history={elem.history}
+                        role={elem.role}
+                        constelacion={elem.constelacion}
+                        trailer={elem.trailer}
+                        onDelete={handleDeleteCharacter}
+                        onEdit={handleBeginEdit}
+                      />
+                    })}
+                  </article>
+                </>
               }
-            </Route>
 
-            <Route path="/statistics">
-              <article className="info">
-
-                <MainTitle
-                  text="ESTADÍSTICAS"
+              {cryo.length > 0 &&
+              <>
+                <ElementTitle
+                  text="CRYO"
+                  img="pyroIcon.png"
                 />
-                <div className="characterDetails">
-                  <div className="graphicDiv">
-                    <TitleSection
-                      text="ELEMENTOS"
-                    />
 
-                    <Bar className="graphicBar" data={elementsData} options={
-                      {
-                        indexAxis: 'y',
-                        elements: {
-                          bar: {
-                            borderWidth: 2,
-                          },
-                        },
-                        responsive: true,
-                        plugins: {
-                          legend: {
-                            display: false,
-                          },
-                        },
-                      }
-                    } />
-                  </div>
-
-                  <div className="graphicDiv">
-                    <TitleSection
-                      text="ARTEFACTOS POR PERSONAJE"
-                    />
-
-                    <Bar className="graphicBar" data={artifactsData} options={
-                      {
-                        indexAxis: 'y',
-                        elements: {
-                          bar: {
-                            borderWidth: 2,
-                          },
-                        },
-                        responsive: true,
-                        plugins: {
-                          legend: {
-                            display: false,
-                          },
-                        },
-                      }
-                    } />
-                  </div>
-
-                </div>
+              <article className="componentsDiv">
+                {cryo.map((elem) => {
+                  return <Character
+                    key={elem.id}
+                    id={elem.id}
+                    name={elem.name}
+                    elementC={elem.elementC}
+                    img={elem.img}
+                    history={elem.history}
+                    role={elem.role}
+                    constelacion={elem.constelacion}
+                    trailer={elem.trailer}
+                    onDelete={handleDeleteCharacter}
+                    onEdit={handleBeginEdit}
+                  />
+                })}
               </article>
-            </Route>
+                </>
+              }
 
-            <Route path="/error404">
-              <Error404></Error404>
-            </Route>
 
-            <Redirect to="/error404" />
-          </Switch>
-        </header>
-        <Footer />
-      </div>
-  
+            </article>
+          </Route>
+
+          <Route path="/characterForm">
+            <article className="info">
+
+              <img src={`${process.env.PUBLIC_URL}/img/bannerForm.png`} className="banner"></img>
+              <MainTitle
+                text="FORMULARIO"
+              />
+
+              <CharacterForm
+                editId={editIdCharacter}
+                characterElem={CharactersElems}
+                type={formType}
+                onCreate={handleCreate}
+                onEdit={handleEdit}
+              />
+            </article>
+          </Route>
+
+          <Route path="/characterDetails/:id">
+            <CharacterDetails
+              list={CharactersElems}
+              onCreateArtifact={handleCreateArtifact}
+              onCreateWeapon={handleCreateWeapon}
+            />
+          </Route>
+
+
+          <Route path="/weaponsList">
+            <article className="info">
+              <MainTitle
+                text="ARMAS"
+              />
+              {mandoble.length > 0 &&
+                <>
+                  <h2 className="titlesSections normalTitles">MANDOBLE</h2>
+                  <article className="componentsDiv">
+                    {mandoble.map((elem) => {
+                      return <Weapon
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        img={elem.mainImg}
+                      />
+                    })}
+                  </article>
+                </>
+              }
+
+              {lanza.length > 0 &&
+                <>
+                  <h2 className="titlesSections normalTitles">LANZA</h2>
+                  <article className="componentsDiv">
+                    {lanza.map((elem) => {
+                      return <Weapon
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        img={elem.mainImg}
+                      />
+                    })}
+                  </article>
+                </>
+              }
+
+              {espada.length > 0 &&
+                <>
+                  <h2 className="titlesSections normalTitles">ESPADA</h2>
+                  <article className="componentsDiv">
+                    {espada.map((elem) => {
+                      return <Weapon
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        img={elem.mainImg}
+                      />
+                    })}
+                  </article>
+                </>
+              }
+            </article>
+
+          </Route>
+
+          <Route path="/artifactsList">
+            <article className="info">
+              <MainTitle
+                text="ARTEFACTOS"
+              />
+
+              <article className="componentsDiv">
+                {artifactArray.map((elem) => {
+                  return <Artifacts
+                    key={elem.id}
+                    id={elem.id}
+                    name={elem.name}
+                    mainImg={elem.mainImg}
+                  />
+                })}
+              </article>
+            </article>
+          </Route>
+
+          <Route path="/artifactsDetails/:id">
+            <ArtifactsDetails
+              list={artifactArray}
+            />
+          </Route>
+
+          <Route path="/weaponDetails/:id">
+            {weaponElem &&
+              <WeaponDetails
+                weapon={weaponElem}
+              />
+            }
+          </Route>
+
+          <Route path="/statistics">
+            <article className="info">
+
+              <MainTitle
+                text="ESTADÍSTICAS"
+              />
+              <div className="characterDetails">
+                <div className="graphicDiv">
+                  <TitleSection
+                    text="ELEMENTOS"
+                  />
+
+                  <Bar className="graphicBar" data={elementsData} options={
+                    {
+                      indexAxis: 'y',
+                      elements: {
+                        bar: {
+                          borderWidth: 2,
+                        },
+                      },
+                      responsive: true,
+                      plugins: {
+                        legend: {
+                          display: false,
+                        },
+                      },
+                    }
+                  } />
+                </div>
+
+                <div className="graphicDiv">
+                  <TitleSection
+                    text="ARTEFACTOS POR PERSONAJE"
+                  />
+                  <Bar className="graphicBar" data={artifactsData} options={
+                    {
+                      indexAxis: 'y',
+                      elements: {
+                        bar: {
+                          borderWidth: 2,
+                        },
+                      },
+                      responsive: true,
+                      plugins: {
+                        legend: {
+                          display: false,
+                        },
+                      },
+                    }
+                  } />
+                </div>
+
+              </div>
+            </article>
+          </Route>
+
+          <Route path="/error404">
+            <Error404></Error404>
+          </Route>
+
+          <Redirect to="/error404" />
+        </Switch>
+      </header>
+      <Footer />
+    </div>
+
   );
 }
 

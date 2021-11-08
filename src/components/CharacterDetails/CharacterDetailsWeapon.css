@@ -6,13 +6,13 @@
 }
 
 .mainInfoWeapon{
-    width: 40%;
+    width: 45%;
     display: flex;
 
 }
 
-.mainInfoArtifactImg{
-    height: 60%;
+.mainInfoWeaponImg{
+    height: 70%;
 }
 
 .mainInfoWeapon--textDiv{
@@ -22,7 +22,7 @@
 }
 
 .detailsWeapon{
-    width: 48%;
+    width: 44%;
     text-align: left;
     height: fit-content;
     padding: 40px 25px;

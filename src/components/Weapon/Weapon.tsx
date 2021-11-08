@@ -15,16 +15,16 @@ export const Weapon: React.FC<WeaponProps> = ({ id, name, img, onDelete, onEdit 
     const historyPage = useHistory();
 
 
-    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
-          
+    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {  
         if(onDelete){
             onDelete(id);
       }
     }
 
     const handleEdit: React.MouseEventHandler<HTMLButtonElement> = () => {
-        /*history.push('/form')
-        onEdit(id);*/
+        if(onEdit){
+            onEdit(id);
+      }
     }
 
     const handleDetails: React.MouseEventHandler<HTMLImageElement> = () => {

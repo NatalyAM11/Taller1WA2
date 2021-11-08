@@ -86,7 +86,7 @@
   justify-content: space-evenly;
   padding: 0px 45px;
   box-sizing: border-box;
-  margin-bottom: 150px;
+  margin-bottom: 140px;
 }
 
 .titlesAllComp{
@@ -105,8 +105,8 @@
 }
 
 .componentsButton{
-  background-color: #BE8E2B;
-  width: 80%;
+  background-color: #ad832d;
+  width: 18%;
   padding: 10px 0px;
   font-family: Raleway;
   font-size: 16px;

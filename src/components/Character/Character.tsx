@@ -22,7 +22,6 @@ export const Character: React.FC<CharacterProps> = ({id, name, elementC, img, on
       const history=useHistory();
 
       const handleDelete: React.MouseEventHandler<HTMLButtonElement> = ()=>{
-            //history.push('/charactersList');
 
             if(onDelete){
                   onDelete(id);
@@ -49,8 +48,19 @@ export const Character: React.FC<CharacterProps> = ({id, name, elementC, img, on
             <h2 className="characterName titlesAllComp">{name}</h2>
             <img className="characterImg" src={`${process.env.PUBLIC_URL}/img/${img}`}></img>
             </div>
-            {onEdit && <button className="componentsButton" onClick={handleEdit}>EDIT</button>}
-            {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>}
+            <div className="buttonsDiv">
+            <>
+            {onEdit && <button className="componentsButton" onClick={handleEdit}>
+            <img src={`${process.env.PUBLIC_URL}/img/editIcon.png`}></img></button>}
+            {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>
+            <img src={`${process.env.PUBLIC_URL}/img/deleteIcon.png`}></img>
+            </button>}
+            </>
+
+            <button className="componentsButton">
+            <img src={`${process.env.PUBLIC_URL}/img/likeIcon.png`}></img>
+            </button>
+            </div>
       </div>);
 
 }

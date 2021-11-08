@@ -42,7 +42,8 @@
     box-sizing: border-box;
 }
 
-.weaponFormDiv{
+.weaponFormDiv,
+.artifactFormDiv{
     width: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -56,17 +57,12 @@
     box-sizing: border-box;
     justify-content: space-evenly;
     margin-top: 90px;
-    margin-bottom: 90px;
-}
-
-.artifactFormDiv{
-    width: 100%;
-    display: flex;
-    margin-left: 50px;
+    margin-bottom: 120px;
 }
 
 .artifactElem,
 .weaponElem {
+    width: 100%;
     margin-top: 20px;
 }
 
@@ -92,4 +88,8 @@
     flex-direction: column;
     padding: 0px 350px;
     box-sizing: border-box;
+}
+
+.buttonAddComponent{
+    margin-left: 85%;
 }

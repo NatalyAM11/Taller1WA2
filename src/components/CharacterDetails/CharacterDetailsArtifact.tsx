@@ -15,7 +15,7 @@ interface CharacterDetailsArtifactProps {
 }
 
 
-export const CharacterDetailsArtifact: React.FC<CharacterDetailsArtifactProps> = ({ id, name, imgFlor, arena, copa, tiara, onEdit }) => {
+export const CharacterDetailsArtifact: React.FC<CharacterDetailsArtifactProps> = ({ id, name, imgFlor, arena, copa, tiara, onDelete, onEdit }) => {
 
     const history = useHistory();
 
@@ -23,11 +23,18 @@ export const CharacterDetailsArtifact: React.FC<CharacterDetailsArtifactProps> =
         history.push(`/artifactsDetails/${id}`)
     }
 
-    const handleEditArtifact: React.MouseEventHandler<HTMLButtonElement> = () => {
+    const handleEdit: React.MouseEventHandler<HTMLButtonElement> = () => {
         if (onEdit) {
             onEdit(id);
         }
     }
+
+    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = ()=>{
+        if(onDelete){
+              onDelete(id);
+        }
+  
+  }
 
 
     return <div className="ArtifactsCharacter">
@@ -41,8 +48,8 @@ export const CharacterDetailsArtifact: React.FC<CharacterDetailsArtifactProps> =
                     <p className="subtitleMainInfo">{"4 set items"}</p>
 
                     <div className="buttonsArtifactDiv">
-                        <button className="buttonComponents button" onClick={handleEditArtifact}>EDITAR</button>
-                        <button className="buttonComponents button deleteButton" onClick={handleEditArtifact}>ELIMINAR</button>
+                        <button className="buttonComponents button" onClick={handleEdit}>EDITAR</button>
+                        <button className="buttonComponents button deleteButton" onClick={handleDelete}>ELIMINAR</button>
                     </div>
                 </div>
             </section>

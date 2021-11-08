@@ -7,7 +7,6 @@ export   const getChartArtifactsData = (characterElem: CharacterElemObj[]) => {
       counters[character.name] = character.artifacts.length;
     });
 
-    console.log(counters)
     return {
       labels: Object.keys(counters),
       datasets: [
