@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Taller1WA2/static/css/main.2d84d342.chunk.css",
-    "main.js": "/Taller1WA2/static/js/main.67d6675d.chunk.js",
-    "main.js.map": "/Taller1WA2/static/js/main.67d6675d.chunk.js.map",
+    "main.css": "/Taller1WA2/static/css/main.d3e336ed.chunk.css",
+    "main.js": "/Taller1WA2/static/js/main.9ed280b9.chunk.js",
+    "main.js.map": "/Taller1WA2/static/js/main.9ed280b9.chunk.js.map",
     "runtime-main.js": "/Taller1WA2/static/js/runtime-main.05609128.js",
     "runtime-main.js.map": "/Taller1WA2/static/js/runtime-main.05609128.js.map",
-    "static/js/2.1ba009b0.chunk.js": "/Taller1WA2/static/js/2.1ba009b0.chunk.js",
-    "static/js/2.1ba009b0.chunk.js.map": "/Taller1WA2/static/js/2.1ba009b0.chunk.js.map",
+    "static/js/2.96c547e5.chunk.js": "/Taller1WA2/static/js/2.96c547e5.chunk.js",
+    "static/js/2.96c547e5.chunk.js.map": "/Taller1WA2/static/js/2.96c547e5.chunk.js.map",
     "static/js/3.579221ae.chunk.js": "/Taller1WA2/static/js/3.579221ae.chunk.js",
     "static/js/3.579221ae.chunk.js.map": "/Taller1WA2/static/js/3.579221ae.chunk.js.map",
     "index.html": "/Taller1WA2/index.html",
-    "static/css/main.2d84d342.chunk.css.map": "/Taller1WA2/static/css/main.2d84d342.chunk.css.map",
-    "static/js/2.1ba009b0.chunk.js.LICENSE.txt": "/Taller1WA2/static/js/2.1ba009b0.chunk.js.LICENSE.txt"
+    "static/css/main.d3e336ed.chunk.css.map": "/Taller1WA2/static/css/main.d3e336ed.chunk.css.map",
+    "static/js/2.96c547e5.chunk.js.LICENSE.txt": "/Taller1WA2/static/js/2.96c547e5.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.05609128.js",
-    "static/js/2.1ba009b0.chunk.js",
-    "static/css/main.2d84d342.chunk.css",
-    "static/js/main.67d6675d.chunk.js"
+    "static/js/2.96c547e5.chunk.js",
+    "static/css/main.d3e336ed.chunk.css",
+    "static/js/main.9ed280b9.chunk.js"
   ]
 }
