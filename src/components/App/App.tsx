@@ -23,10 +23,6 @@ import { TitleSection } from '../TitleSection/TitleSection';
 import { getChartArtifactsData } from '../Utils/getChartData';
 
 
-/*type CharacterElemObj= CharacterProps &{
-  id: number;
-}*/
-
 
 function App() {
   const history = useHistory();
@@ -85,6 +81,12 @@ function App() {
     }
   })
 
+  const anemo = CharactersElems.filter((x) => {
+    if (x.elementC === "anemo") {
+      return true
+    }
+  })
+
 
   //Array artefactos
   let artifactArray: ArtifactsElemObj[] = [];
@@ -102,7 +104,7 @@ function App() {
 
 
   CharactersElems.forEach((elem) => {
-    if(elem.weapon) weaponArray.push(elem.weapon)
+    if (elem.weapon) weaponArray.push(elem.weapon)
   });
 
   //separo los tipos de armas
@@ -111,15 +113,18 @@ function App() {
       return true
     }
   })
-
   const lanza = weaponArray.filter((w) => {
     if (w?.type === "Lanza") {
       return true
     }
   })
-
   const espada = weaponArray.filter((w) => {
     if (w?.type === "Espada") {
+      return true
+    }
+  })
+  const arco = weaponArray.filter((w) => {
+    if (w?.type === "Arco") {
       return true
     }
   })
@@ -166,7 +171,12 @@ function App() {
 
 
   const handleDeleteCharacter = (deleteId: number) => {
-    const characterElemCopy = CharactersElems.filter((elem) => elem.id == deleteId);
+    const characterElemCopy = CharactersElems.filter((elem) => {
+      if (elem.id === deleteId) {
+        return false;
+      }
+      return true
+    });
 
     setCharacters(characterElemCopy);
   }
@@ -218,38 +228,46 @@ function App() {
     setCharacters(characterCopy);
   }
 
-   const handleEditArtifact = (characterId: number, artifactId:number, editArtifact: ArtifactsElemObj) => {
+  const handleEditArtifact = (characterId: number, artifactId: number, editArtifact: ArtifactsElemObj) => {
 
     const characterCopy = CharactersElems.slice();
     const editIndex = CharactersElems.findIndex((elem) => elem.id === characterId);
-    const artifactEditIndex = characterCopy[editIndex].artifacts.findIndex((elem)=> elem.id ===artifactId)
+    const artifactEditIndex = characterCopy[editIndex].artifacts.findIndex((elem) => elem.id === artifactId)
 
-   setCharacters((prev)=>{
-    const copy= prev;
+    setCharacters((prev) => {
+      const copy = prev;
 
-    copy[editIndex].artifacts[artifactEditIndex]=editArtifact;
+      copy[editIndex].artifacts[artifactEditIndex] = editArtifact;
 
-    return[...copy]
-   })
+      return [...copy]
+    })
 
     //setCharacters(characterCopy);
   }
 
-  const handleDeleteArtifact = (characterId: number, deleteArtifactId:number) => {
-   // const characterElemCopy = CharactersElems.filter((elem) => elem.id == deleteId);
-   
-    const characterCopy = CharactersElems.slice();
-    const editIndex = CharactersElems.findIndex((elem) => elem.id === characterId);
-    const artifactDeleteIndex = characterCopy[editIndex].artifacts.findIndex((elem)=> elem.id ===deleteArtifactId)
-    console.log("odio aqui")
-    /*const c = characterCopy[editIndex].artifacts.filter((elem)=>{elem.id ===artifactDeleteIndex})
-    console.log(c)*/
+  const handleDeleteArtifact = (characterId: number, deleteArtifactId: number) => {
 
-    //setCharacters(characterCopy);
+    const editIndex = CharactersElems.findIndex((elem) => elem.id === characterId);
+    //const artifactDeleteIndex = characterCopy[editIndex].artifacts.findIndex((elem)=> elem.id ===deleteArtifactId);
+
+    const newArtifactArray = CharactersElems[editIndex].artifacts.filter((elemA) => {
+      if (elemA.id === deleteArtifactId) {
+        return false;
+      }
+      return true
+    });
+
+    setCharacters((prev) => {
+      const copy = prev;
+      copy[editIndex].artifacts = newArtifactArray;
+
+      return [...copy]
+      //console.log(copy[editIndex].artifacts.filter((elemA)=> elemA.id === deleteArtifactId))  
+    })
   }
 
 
-  //Weapon
+  ////Weapon
   const handleCreateWeapon = (characterId: number, newWeapon: WeaponElemObj) => {
 
     const characterCopy = CharactersElems.slice();
@@ -268,13 +286,48 @@ function App() {
     setCharacters(characterCopy);
   }
 
+  const handleDeleteWeapon = (characterId: number) => {
+    const characterCopy = CharactersElems.slice();
+    const editIndexC = CharactersElems.findIndex((elem) => elem.id === characterId);
+
+    /* const newArtifactArray = characterCopy[editIndexC];
+     delete newArtifactArray.weapon;
+
+     characterCopy[editIndexC]={
+         ...CharactersElems[editIndexC],
+         newArtifactArray
+     }
+     console.log(ji)*/
+
+    /*  const characterCopyW = characterCopy[editIndexC];
+      delete characterCopyW.weapon;
+ 
+      console.log(characterCopyW)
+ 
+      characterCopy[editIndexC]={
+          ...characterCopy[editIndexC],
+          characterCopyW
+      }*/
+
+    setCharacters((prev) => {
+      const copy = prev;
+      const characterCopyW = copy[editIndexC];
+      delete characterCopyW.weapon;
+
+      copy[editIndexC] = characterCopyW;
+
+      console.log(copy)
+      return [...copy]
+      //console.log(copy[editIndex].artifacts.filter((elemA)=> elemA.id === deleteArtifactId))  
+    })
+  }
 
   const elementsData = {
     labels: ['PYRO', 'ELECTRO', 'CRYO', 'ANEMO', 'HYDRO', 'GEO'],
     datasets: [
       {
         label: '# de personajes',
-        data: [pyro.length, electro.length, cryo.length],
+        data: [pyro.length, electro.length, cryo.length, anemo.length],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(153, 102, 255, 0.2)',
@@ -302,7 +355,6 @@ function App() {
 
 
   return (
-
 
     <div className="App">
       <header className="App-header">
@@ -394,33 +446,58 @@ function App() {
               }
 
               {cryo.length > 0 &&
-              <>
-                <ElementTitle
-                  text="CRYO"
-                  img="pyroIcon.png"
-                />
-
-              <article className="componentsDiv">
-                {cryo.map((elem) => {
-                  return <Character
-                    key={elem.id}
-                    id={elem.id}
-                    name={elem.name}
-                    elementC={elem.elementC}
-                    img={elem.img}
-                    history={elem.history}
-                    role={elem.role}
-                    constelacion={elem.constelacion}
-                    trailer={elem.trailer}
-                    onDelete={handleDeleteCharacter}
-                    onEdit={handleBeginEdit}
+                <>
+                  <ElementTitle
+                    text="CRYO"
+                    img="pyroIcon.png"
                   />
-                })}
-              </article>
+
+                  <article className="componentsDiv">
+                    {cryo.map((elem) => {
+                      return <Character
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        elementC={elem.elementC}
+                        img={elem.img}
+                        history={elem.history}
+                        role={elem.role}
+                        constelacion={elem.constelacion}
+                        trailer={elem.trailer}
+                        onDelete={handleDeleteCharacter}
+                        onEdit={handleBeginEdit}
+                      />
+                    })}
+                  </article>
                 </>
               }
 
+              {anemo.length > 0 &&
+                <>
+                  <ElementTitle
+                    text="ANEMO"
+                    img="anemoIcon.png"
+                  />
 
+                  <article className="componentsDiv">
+                    {anemo.map((elem) => {
+                      return <Character
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        elementC={elem.elementC}
+                        img={elem.img}
+                        history={elem.history}
+                        role={elem.role}
+                        constelacion={elem.constelacion}
+                        trailer={elem.trailer}
+                        onDelete={handleDeleteCharacter}
+                        onEdit={handleBeginEdit}
+                      />
+                    })}
+                  </article>
+                </>
+              }
             </article>
           </Route>
 
@@ -449,6 +526,7 @@ function App() {
               onEditArtifact={handleEditArtifact}
               onDeleteArtifact={handleDeleteArtifact}
               onCreateWeapon={handleCreateWeapon}
+              onDeleteWeapon={handleDeleteWeapon}
             />
           </Route>
 
@@ -473,7 +551,6 @@ function App() {
                   </article>
                 </>
               }
-
               {lanza.length > 0 &&
                 <>
                   <h2 className="titlesSections normalTitles">LANZA</h2>
@@ -489,8 +566,22 @@ function App() {
                   </article>
                 </>
               }
-
               {espada.length > 0 &&
+                <>
+                  <h2 className="titlesSections normalTitles">ESPADA</h2>
+                  <article className="componentsDiv">
+                    {espada.map((elem) => {
+                      return <Weapon
+                        key={elem.id}
+                        id={elem.id}
+                        name={elem.name}
+                        img={elem.mainImg}
+                      />
+                    })}
+                  </article>
+                </>
+              }
+                   {espada.length > 0 &&
                 <>
                   <h2 className="titlesSections normalTitles">ESPADA</h2>
                   <article className="componentsDiv">

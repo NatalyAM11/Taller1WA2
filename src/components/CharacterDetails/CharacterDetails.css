@@ -2,20 +2,42 @@
     width: 100%;
     padding: 150px 80px;
     box-sizing: border-box;
-    
 }
 
 .biographyDiv{
     width: 33%;
-    margin-right: 19px;
+    margin-right: 19px;    
 }
 
-.titleElemDetail{  
+.titleElemDetail{
     font-family: Volkhov;
     font-weight: bold;
-    font-size: 35px;
+    font-size: 34px;
     line-height: 45px;
     margin-bottom: 18px;
+}
+
+.titleCharacterDetail{  
+    height: 53px;
+    display: flex;
+    background-size: contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    justify-content: center;
+    align-items: center;
+}
+
+.nameCharacterPyro{
+    background-image: url('/src/images/nameBackgroundPyro.png');
+}
+.nameCharacterCryo{
+    background-image: url('/src/images/nameBackgroundCyro.png');
+}
+.nameCharacterElectro{
+    background-image: url('/src/images/nameBackgroundEle.png');
+}
+.nameCharacterAnemo{
+    background-image: url('/src/images/nameBackgroundAne.png');
 }
 
 .biographyText{
@@ -33,6 +55,7 @@
 
 .details{
     width: 24%;
+    height: auto;
     background-color: #292929;
     border-radius: 15px;
     display: flex;

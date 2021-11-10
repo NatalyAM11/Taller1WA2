@@ -28,5 +28,7 @@ align-items: center;
 .buttonsDiv{
     width: 100%;
     display: flex;
-    justify-content:space-between;
+    justify-content: space-around;
+    padding-left: 58%;
+    box-sizing: border-box;
 }

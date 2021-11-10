@@ -20,16 +20,24 @@ interface CharacterDetailsProps {
     onEditArtifact: (characterId: number, artifactId: number, EditArtifact: ArtifactsElemObj) => void
     onDeleteArtifact: (characterId: number, deleteArtifactId:number)=>void
     onCreateWeapon: (characterId: number, newWeapon: WeaponElemObj) => void
+    onDeleteWeapon: (characterId: number)=>void
 }
 
 
 
-export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCreateArtifact, onEditArtifact, onDeleteArtifact, onCreateWeapon }) => {
+export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCreateArtifact, onEditArtifact, onDeleteArtifact, onCreateWeapon, onDeleteWeapon }) => {
     const historyPages = useHistory();
 
     //Busco el elemento por su id que viene en el parametro en la lista
     const id = useIdParam();
     const character = useGetElementByIdParam(list);
+
+    let titleCharacter;
+
+    if(character?.elementC==="pyro")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterPyro"
+    if(character?.elementC==="cryo")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterCryo"
+    if(character?.elementC==="electro")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterElectro"
+    if(character?.elementC==="anemo")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterElectro"
 
     //Estado del arreglo de personajes
     const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>(list);
@@ -130,7 +138,7 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
     }
 
     const handleDeleteArtifact = (deleteId: number) => {
-
+        onDeleteArtifact(idC,deleteId)
     }
 
 
@@ -158,7 +166,6 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
 
 
     const handleEditWeapon = (id: number, editWeapon: WeaponElemObj) => {
-        console.log(id, editWeapon.name)
 
         const characterCopy = CharactersElems.slice();
         const editIndex = CharactersElems.findIndex((elem) => elem.id === editIdWeapon);
@@ -173,12 +180,43 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
     }
 
 
+    const handleDeleteWeapon = () => {
+        onDeleteWeapon(idC)
+       /* const newArtifactArray = characterCopy[editIndexC];
+        delete newArtifactArray.weapon;
 
-    const handleDeleteWeapon = (deleteId: number) => {
+        characterCopy[editIndexC]={
+            ...CharactersElems[editIndexC],
+            newArtifactArray
+        }
+        console.log(ji)*/
 
+      /*  const characterCopyW = characterCopy[editIndexC];
+        delete characterCopyW.weapon;
+
+        console.log(characterCopyW)
+ 
+        characterCopy[editIndexC]={
+            ...characterCopy[editIndexC],
+            characterCopyW
+        }*/
+
+        ///////////////////////////////////
+        /*const characterCopy = CharactersElems.slice();
+        const editIndexC = CharactersElems.findIndex((elem) => elem.id === idC);
+
+        setCharacters((prev) => {
+            const copy = prev;
+            const characterCopyW= copy[editIndexC];
+            delete characterCopyW.weapon;
+
+            copy[editIndexC]=characterCopyW;
+
+            console.log(copy)
+            return [...copy]
+            //console.log(copy[editIndex].artifacts.filter((elemA)=> elemA.id === deleteArtifactId))  
+          })*/
     }
-
-
 
 
     return (<div className="characterDetails">
@@ -190,7 +228,7 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
             <img src={`${process.env.PUBLIC_URL}/img/${img}`}></img>
 
             <div className="biographyDiv">
-                <h2 className="titleElemDetail">{name}</h2>
+                <h2 className={titleCharacter}>{name}</h2>
                 <p className="biographyText">{history}</p>
             </div>
 
@@ -240,13 +278,14 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
                         typeWF={formWeaponType}
                         editId={editIdWeapon}
                         weaponElem={weapon}
+                        ownerId={character.id}
                         onCreate={handleCreateWeapon}
                         onEdit={handleEditWeapon}
                     />
                 }
             </section>
 
-            {formWeaponType == "none" && weapon &&
+            {formWeaponType == "none" && weapon && weapon!=undefined &&
                 <section className="weaponElem">
                     {(weaponId && weaponType && weaponName) &&
                         <CharacterDetailsWeapon

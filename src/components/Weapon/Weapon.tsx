@@ -38,9 +38,13 @@ export const Weapon: React.FC<WeaponProps> = ({ id, name, img, onDelete, onEdit 
             <h2 className="weaponName titlesAllComp">{name}</h2>
             <img className="weaponImg" src={`${process.env.PUBLIC_URL}/img/${img}`} onClick={handleDetails}></img>
         </div>
-        
-        {onEdit && <button className="componentsButton" onClick={handleEdit}>EDIT</button>}
-        {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>DELETE</button>}
+        <div className="buttonsDiv">
+            {onEdit && <button className="componentsButton" onClick={handleEdit}>
+            <img src={`${process.env.PUBLIC_URL}/img/editIcon.png`}></img></button>}
+            {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>
+            <img src={`${process.env.PUBLIC_URL}/img/deleteIcon.png`}></img>
+            </button>}
+            </div>
     </div>);
 
 }

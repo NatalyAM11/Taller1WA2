@@ -38,6 +38,10 @@ export const WeaponDetails: React.FC<WeaponDetailsProps> = ({ weapon }) => {
                     text={type}
                 />
                 <DetailsObj
+                    title={"Dueño"}
+                    text={stat}
+                />
+                <DetailsObj
                     title={"Obtención"}
                     text={"Gacha"}
                 />
