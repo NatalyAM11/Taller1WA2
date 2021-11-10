@@ -46,7 +46,9 @@ export const Character: React.FC<CharacterProps> = ({id, name, elementC, img, on
       return (<div className="character">
             <div className="onlyCharacter" onClick={handlePerfil}>
             <h2 className="characterName titlesAllComp">{name}</h2>
+            <div>
             <img className="characterImg" src={`${process.env.PUBLIC_URL}/img/${img}`}></img>
+            </div>
             </div>
             <div className="buttonsDiv">
             <>

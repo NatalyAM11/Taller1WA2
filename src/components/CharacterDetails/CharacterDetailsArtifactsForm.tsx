@@ -18,8 +18,6 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
       const editA= artifactElem.find((elem)=>{
             return elem.id===editId
       })
-
-      console.log(type)
     
       const [formSubmitted, setFormSubmitted] = React.useState(false);
 

@@ -12,5 +12,5 @@ export type CharacterElemObj = {
     city: string;
     trailer: string;
     artifacts: ArtifactsElemObj[]
-    weapon: WeaponElemObj;
+    weapon?: WeaponElemObj;
   }

@@ -5,7 +5,7 @@ import { WeaponElemObj } from '../types/WeaponElemObj';
 interface CharacterDetailsWeaponFormProps {
     typeWF: "create" | "edit" | "none";
     editId: number | null;
-    weaponElem: WeaponElemObj,
+    weaponElem?: WeaponElemObj,
     onCreate: (newWeapon: WeaponElemObj) => void;
     onEdit: (id: number, editWeapon: WeaponElemObj) => void;
 }

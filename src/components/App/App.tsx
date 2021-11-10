@@ -26,7 +26,7 @@ import { getChartArtifactsData } from '../Utils/getChartData';
 /*type CharacterElemObj= CharacterProps &{
   id: number;
 }*/
-let weaponn: WeaponElemObj;
+
 
 function App() {
   const history = useHistory();
@@ -49,7 +49,7 @@ function App() {
       city: "Mondstadt",
       trailer: "https://www.youtube.com/embed/1TfbiDo7N4k",
       artifacts: [],
-      weapon: weaponn,
+
     },
     {
       id: Math.random(),
@@ -62,7 +62,6 @@ function App() {
       city: "Mondstadt",
       trailer: "https://www.youtube.com/embed/UW8lG_wNFIY",
       artifacts: [],
-      weapon: weaponn,
     },
   ])
 
@@ -103,7 +102,7 @@ function App() {
 
 
   CharactersElems.forEach((elem) => {
-    weaponArray.push(elem.weapon)
+    if(elem.weapon) weaponArray.push(elem.weapon)
   });
 
   //separo los tipos de armas
@@ -134,7 +133,7 @@ function App() {
     }
   });
 
-
+  //handle characters
   const handleCreate = (newCharacter: { name: string, elementC: string, img: string, history: string, role: string, constelacion: string, city: string, trailer: string }) => {
     console.log('Se creo', newCharacter)
 
@@ -162,20 +161,12 @@ function App() {
         }
       }
     ]
-
     setCharacters(newArrayCharacter);
   }
 
 
   const handleDeleteCharacter = (deleteId: number) => {
-    const characterElemCopy = CharactersElems.filter((elem) => {
-
-      if (elem.id == deleteId) {
-        return false
-      } else {
-        return true
-      }
-    });
+    const characterElemCopy = CharactersElems.filter((elem) => elem.id == deleteId);
 
     setCharacters(characterElemCopy);
   }
@@ -211,16 +202,11 @@ function App() {
 
 
 
-  //Artefactos
+  //handle artefactos
   const handleCreateArtifact = (characterId: number, newArtifact: ArtifactsElemObj) => {
 
     const characterCopy = CharactersElems.slice();
-    const editIndex = CharactersElems.findIndex((elem) => {
-      if (elem.id === characterId) {
-        return true;
-      }
-      return false
-    });
+    const editIndex = CharactersElems.findIndex((elem) => elem.id === characterId);
 
     characterCopy[editIndex] = {
       ...CharactersElems[editIndex],
@@ -229,9 +215,37 @@ function App() {
         newArtifact
       ]
     }
-
     setCharacters(characterCopy);
+  }
 
+   const handleEditArtifact = (characterId: number, artifactId:number, editArtifact: ArtifactsElemObj) => {
+
+    const characterCopy = CharactersElems.slice();
+    const editIndex = CharactersElems.findIndex((elem) => elem.id === characterId);
+    const artifactEditIndex = characterCopy[editIndex].artifacts.findIndex((elem)=> elem.id ===artifactId)
+
+   setCharacters((prev)=>{
+    const copy= prev;
+
+    copy[editIndex].artifacts[artifactEditIndex]=editArtifact;
+
+    return[...copy]
+   })
+
+    //setCharacters(characterCopy);
+  }
+
+  const handleDeleteArtifact = (characterId: number, deleteArtifactId:number) => {
+   // const characterElemCopy = CharactersElems.filter((elem) => elem.id == deleteId);
+   
+    const characterCopy = CharactersElems.slice();
+    const editIndex = CharactersElems.findIndex((elem) => elem.id === characterId);
+    const artifactDeleteIndex = characterCopy[editIndex].artifacts.findIndex((elem)=> elem.id ===deleteArtifactId)
+    console.log("odio aqui")
+    /*const c = characterCopy[editIndex].artifacts.filter((elem)=>{elem.id ===artifactDeleteIndex})
+    console.log(c)*/
+
+    //setCharacters(characterCopy);
   }
 
 
@@ -432,6 +446,8 @@ function App() {
             <CharacterDetails
               list={CharactersElems}
               onCreateArtifact={handleCreateArtifact}
+              onEditArtifact={handleEditArtifact}
+              onDeleteArtifact={handleDeleteArtifact}
               onCreateWeapon={handleCreateWeapon}
             />
           </Route>
