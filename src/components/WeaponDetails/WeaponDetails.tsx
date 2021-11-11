@@ -2,15 +2,24 @@ import React from 'react';
 import { DetailsObj } from '../DetailsObj/DetailsObj';
 import { TitleSection } from '../TitleSection/TitleSection';
 import { WeaponElemObj } from '../types/WeaponElemObj';
+import { useGetElementByIdParam } from '../Utils/useGetElementByIdParam';
+import { useIdParam } from '../Utils/useIdParam';
 import './WeaponDetails.css';
 
 interface WeaponDetailsProps {
-    weapon: WeaponElemObj;
+    weapon: WeaponElemObj[];
 }
 
 export const WeaponDetails: React.FC<WeaponDetailsProps> = ({ weapon }) => {
 
-    const { name, mainImg, history, type, stat, passive } = weapon
+    /*const { name, mainImg, history, type, stat, passive } = weapon*/
+
+     //Busco el elemento por su id que viene en el parametro en la lista
+     const id= useIdParam();
+     const weaponElem= useGetElementByIdParam(weapon);
+
+     if(!weaponElem){return null}
+     const { name, mainImg, history, type, stat, passive } = weaponElem
 
     return <div className="weaponDetails">
         <TitleSection
@@ -36,10 +45,6 @@ export const WeaponDetails: React.FC<WeaponDetailsProps> = ({ weapon }) => {
                 <DetailsObj
                     title={"Tipo"}
                     text={type}
-                />
-                <DetailsObj
-                    title={"Dueño"}
-                    text={stat}
                 />
                 <DetailsObj
                     title={"Obtención"}

@@ -37,7 +37,7 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
     if(character?.elementC==="pyro")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterPyro"
     if(character?.elementC==="cryo")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterCryo"
     if(character?.elementC==="electro")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterElectro"
-    if(character?.elementC==="anemo")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterElectro"
+    if(character?.elementC==="anemo")titleCharacter="titleElemDetail titleCharacterDetail nameCharacterAnemo"
 
     //Estado del arreglo de personajes
     const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>(list);
@@ -278,7 +278,6 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
                         typeWF={formWeaponType}
                         editId={editIdWeapon}
                         weaponElem={weapon}
-                        ownerId={character.id}
                         onCreate={handleCreateWeapon}
                         onEdit={handleEditWeapon}
                     />
