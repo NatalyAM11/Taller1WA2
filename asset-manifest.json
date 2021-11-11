@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Taller1WA2/static/css/main.f803e64f.chunk.css",
-    "main.js": "/Taller1WA2/static/js/main.f75a53a4.chunk.js",
-    "main.js.map": "/Taller1WA2/static/js/main.f75a53a4.chunk.js.map",
+    "main.js": "/Taller1WA2/static/js/main.e2656029.chunk.js",
+    "main.js.map": "/Taller1WA2/static/js/main.e2656029.chunk.js.map",
     "runtime-main.js": "/Taller1WA2/static/js/runtime-main.05609128.js",
     "runtime-main.js.map": "/Taller1WA2/static/js/runtime-main.05609128.js.map",
     "static/js/2.0989f8d0.chunk.js": "/Taller1WA2/static/js/2.0989f8d0.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.05609128.js",
     "static/js/2.0989f8d0.chunk.js",
     "static/css/main.f803e64f.chunk.css",
-    "static/js/main.f75a53a4.chunk.js"
+    "static/js/main.e2656029.chunk.js"
   ]
 }
