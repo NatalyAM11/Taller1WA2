@@ -278,6 +278,7 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
                         typeWF={formWeaponType}
                         editId={editIdWeapon}
                         weaponElem={weapon}
+                        idOwner={character.id}
                         onCreate={handleCreateWeapon}
                         onEdit={handleEditWeapon}
                     />

@@ -6,25 +6,16 @@ export interface WeaponProps {
     id: number,
     name: string,
     img: string,
-    onDelete?: (id: number) => void
-    onEdit?: (id: number) => void
+    idCharacter:number,
 }
 
-export const Weapon: React.FC<WeaponProps> = ({ id, name, img, onDelete, onEdit }) => {
+export const Weapon: React.FC<WeaponProps> = ({ id, name, img, idCharacter}) => {
 
     const historyPage = useHistory();
 
 
-    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {  
-        if(onDelete){
-            onDelete(id);
-      }
-    }
-
     const handleEdit: React.MouseEventHandler<HTMLButtonElement> = () => {
-        if(onEdit){
-            onEdit(id);
-      }
+        historyPage.push(`/characterDetails/${idCharacter}`)
     }
 
     const handleDetails: React.MouseEventHandler<HTMLImageElement> = () => {
@@ -38,12 +29,10 @@ export const Weapon: React.FC<WeaponProps> = ({ id, name, img, onDelete, onEdit 
             <h2 className="weaponName titlesAllComp">{name}</h2>
             <img className="weaponImg" src={`${process.env.PUBLIC_URL}/img/${img}`} onClick={handleDetails}></img>
         </div>
+
         <div className="buttonsDiv">
-            {onEdit && <button className="componentsButton" onClick={handleEdit}>
-            <img src={`${process.env.PUBLIC_URL}/img/editIcon.png`}></img></button>}
-            {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>
-            <img src={`${process.env.PUBLIC_URL}/img/deleteIcon.png`}></img>
-            </button>}
+            <button className="componentsButton" onClick={handleEdit}>
+            <img src={`${process.env.PUBLIC_URL}/img/editIcon.png`}></img></button>
             </div>
     </div>);
 

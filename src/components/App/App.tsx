@@ -158,6 +158,7 @@ function App() {
           type: "",
           stat: "",
           passive: "",
+          idOwner:0
         }
       }
     ]
@@ -519,6 +520,7 @@ function App() {
                         id={elem.id}
                         name={elem.name}
                         img={elem.mainImg}
+                        idCharacter = {elem.idOwner}
                       />
                     })}
                   </article>
@@ -534,6 +536,7 @@ function App() {
                         id={elem.id}
                         name={elem.name}
                         img={elem.mainImg}
+                        idCharacter = {elem.idOwner}
                       />
                     })}
                   </article>
@@ -549,6 +552,7 @@ function App() {
                         id={elem.id}
                         name={elem.name}
                         img={elem.mainImg}
+                        idCharacter = {elem.idOwner}
                       />
                     })}
                   </article>
@@ -564,6 +568,7 @@ function App() {
                         id={elem.id}
                         name={elem.name}
                         img={elem.mainImg}
+                        idCharacter = {elem.idOwner}
                       />
                     })}
                   </article>
@@ -602,6 +607,7 @@ function App() {
             {weaponElem &&
               <WeaponDetails
                 weapon={weaponElem}
+                listCharacter={CharactersElems}
               />
             }
           </Route>

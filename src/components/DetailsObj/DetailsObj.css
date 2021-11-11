@@ -11,7 +11,10 @@
 }
 
 .DetailsObj--text{
-    
     font-family: Raleway;
     font-weight: normal;
+}
+
+.DetailsObj--textLink:hover{
+    color: #F4A500;
 }

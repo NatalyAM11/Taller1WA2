@@ -6,4 +6,5 @@ export type WeaponElemObj = {
     type: string;
     stat: string;
     passive: string;
+    idOwner: number
 }

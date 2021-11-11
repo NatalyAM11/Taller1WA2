@@ -6,11 +6,12 @@ interface CharacterDetailsWeaponFormProps {
     typeWF: "create" | "edit" | "none";
     editId: number | null;
     weaponElem?: WeaponElemObj,
+    idOwner: number,
     onCreate: (newWeapon: WeaponElemObj) => void;
     onEdit: (id: number, editWeapon: WeaponElemObj) => void;
 }
 
-export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProps> = ({ typeWF, editId, weaponElem, onCreate, onEdit }) => {
+export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProps> = ({ typeWF, editId, weaponElem, idOwner, onCreate, onEdit }) => {
 
 
     const [formSubmitted, setFormSubmitted] = React.useState(false);
@@ -67,7 +68,8 @@ export const CharacterDetailsWeaponForm: React.FC<CharacterDetailsWeaponFormProp
                 history: history,
                 type: type,
                 stat: stat,
-                passive: passive
+                passive: passive,
+                idOwner: idOwner
             }
 
             onCreate(newWeapon)
