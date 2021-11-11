@@ -26,7 +26,6 @@ export const Character: React.FC<CharacterProps> = ({id, name, elementC, img, on
             if(onDelete){
                   onDelete(id);
             }
-      
       }
 
       const handleEdit: React.MouseEventHandler<HTMLButtonElement> = ()=>{

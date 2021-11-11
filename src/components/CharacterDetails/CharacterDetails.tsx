@@ -80,7 +80,8 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
                 twoItems: newArtifact.twoItems,
                 fourItems: newArtifact.fourItems,
                 domain: newArtifact.domain,
-                notes: newArtifact.notes
+                notes: newArtifact.notes,
+                idOwner:newArtifact.idOwner
             }
         ]
 
@@ -138,7 +139,8 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
     }
 
     const handleDeleteArtifact = (deleteId: number) => {
-        onDeleteArtifact(idC,deleteId)
+        console.log(deleteId)
+        onDeleteArtifact(idC, deleteId)
     }
 
 
@@ -326,6 +328,7 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ list, onCrea
                         type={formArtifactType}
                         editId={editIdArtifact}
                         artifactElem={artifacts}
+                        idOwner={character.id}
                         onCreate={handleCreateArtifact}
                         onEdit={handleEditArtifact}
                     />

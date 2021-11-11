@@ -29,12 +29,12 @@ export const CharacterDetailsArtifact: React.FC<CharacterDetailsArtifactProps> =
         }
     }
 
-    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = ()=>{
-        if(onDelete){
-              onDelete(id);
+    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
+        if (onDelete) {
+            onDelete(id);
         }
-  
-  }
+
+    }
 
 
     return <div className="ArtifactsCharacter">
@@ -48,8 +48,11 @@ export const CharacterDetailsArtifact: React.FC<CharacterDetailsArtifactProps> =
                     <p className="subtitleMainInfo">{"4 set items"}</p>
 
                     <div className="buttonsArtifactDiv">
-                        <button className="buttonComponents button" onClick={handleEdit}>EDITAR</button>
-                        <button className="buttonComponents button deleteButton" onClick={handleDelete}>ELIMINAR</button>
+                        {onEdit && <button className="componentsButton" onClick={handleEdit}>
+                            <img src={`${process.env.PUBLIC_URL}/img/editIcon.png`}></img></button>}
+                        {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>
+                            <img src={`${process.env.PUBLIC_URL}/img/deleteIcon.png`}></img>
+                        </button>}
                     </div>
                 </div>
             </section>

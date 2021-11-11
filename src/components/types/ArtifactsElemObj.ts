@@ -9,4 +9,5 @@ export type ArtifactsElemObj = {
     fourItems:string;
     domain:string;
     notes:string;
+    idOwner: number;
 }

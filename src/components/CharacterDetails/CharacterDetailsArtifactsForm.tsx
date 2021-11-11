@@ -8,12 +8,13 @@ export interface CharacterDetailsArtifactsFormProps {
       type: "create" | "edit" | "none";
       editId: number | null;
       artifactElem: ArtifactsElemObj[],
+      idOwner:number,
       onCreate: (newArtifact: ArtifactsElemObj) => void;
       onEdit: (id: number, editArtifact: ArtifactsElemObj) => void;
 }
 
 
-export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFormProps> = ({ type, editId, artifactElem, onCreate, onEdit }) => {
+export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFormProps> = ({ type, editId, artifactElem, idOwner, onCreate, onEdit }) => {
 
       const editA= artifactElem.find((elem)=>{
             return elem.id===editId
@@ -97,7 +98,8 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
                         twoItems: twoItems,
                         fourItems: fourItems,
                         domain: domain,
-                        notes: notes
+                        notes: notes,
+                        idOwner: idOwner
                   }
 
                   onCreate(newArtifact)
@@ -108,7 +110,7 @@ export const CharacterDetailsArtifactsForm: React.FC<CharacterDetailsArtifactsFo
                   && tiaraValid) {
 
                   if (editId !== null) {
-                        onEdit(editId, {id: editId, name: name, mainImg: mainImg, arena: arena, copa: caliz, tiara: tiara, twoItems: twoItems, fourItems: fourItems, domain: domain, notes: notes})
+                        onEdit(editId, {id: editId, name: name, mainImg: mainImg, arena: arena, copa: caliz, tiara: tiara, twoItems: twoItems, fourItems: fourItems, domain: domain, notes: notes, idOwner: idOwner})
                   }
 
             } else {

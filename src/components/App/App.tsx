@@ -397,7 +397,7 @@ function App() {
                 <>
                   <ElementTitle
                     text="ELECTRO"
-                    img="pyroIcon.png"
+                    img="electroIcon.png"
                   />
                   <article className="componentsDiv">
                     {electro.map((elem) => {
@@ -423,7 +423,7 @@ function App() {
                 <>
                   <ElementTitle
                     text="CRYO"
-                    img="pyroIcon.png"
+                    img="cryoIcon.png"
                   />
 
                   <article className="componentsDiv">
@@ -591,6 +591,7 @@ function App() {
                     id={elem.id}
                     name={elem.name}
                     mainImg={elem.mainImg}
+                    idCharacter = {elem.idOwner}
                   />
                 })}
               </article>

@@ -33,7 +33,7 @@ export const Weapon: React.FC<WeaponProps> = ({ id, name, img, idCharacter}) => 
         <div className="buttonsDiv">
             <button className="componentsButton" onClick={handleEdit}>
             <img src={`${process.env.PUBLIC_URL}/img/editIcon.png`}></img></button>
-            </div>
+        </div>
     </div>);
 
 }

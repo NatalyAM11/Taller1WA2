@@ -26,7 +26,7 @@ export const CharacterDetailsWeapon: React.FC<CharacterDetailsWeaponProps> = ({ 
 
     }
 
-    const handleDelete: React.MouseEventHandler<HTMLButtonElement>= () => {
+    const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
         if (onDelete) {
             onDelete(id);
         }
@@ -47,9 +47,12 @@ export const CharacterDetailsWeapon: React.FC<CharacterDetailsWeaponProps> = ({ 
                 <p className="mainInfoArtifact--text">{name}</p>
                 <p className="subtitleMainInfo">{stat}</p>
 
-                <div className="buttonsWeaponDiv">
-                    <button className="buttonComponents button" onClick={handleEdit}>EDITAR</button>
-                    <button className="buttonComponents button deleteButton" onClick={handleDelete}>ELIMINAR</button>
+                <div className="buttonsArtifactDiv">
+                    {onEdit && <button className="componentsButton" onClick={handleEdit}>
+                        <img src={`${process.env.PUBLIC_URL}/img/editIcon.png`}></img></button>}
+                    {onDelete && <button className="componentsButton deleteButton" onClick={handleDelete}>
+                        <img src={`${process.env.PUBLIC_URL}/img/deleteIcon.png`}></img>
+                    </button>}
                 </div>
             </div>
         </section>
