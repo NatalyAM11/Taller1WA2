@@ -7,7 +7,6 @@ import { Character, CharacterProps } from '../Character/Character'
 import { CharacterForm } from '../CharacterForm/CharacterForm';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
-import { useHistory } from 'react-router';
 import Weapon from '../Weapon/Weapon';
 import Artifacts from '../Artifacts/Artifacts';
 import Error404 from '../Error404/Error404';
@@ -21,18 +20,18 @@ import { Footer } from '../Footer/Footer';
 import { Bar } from 'react-chartjs-2';
 import { TitleSection } from '../TitleSection/TitleSection';
 import { getChartArtifactsData } from '../Utils/getChartData';
+import { useLocalStorage } from '../Utils/useLocalStorage';
 
 
 
 function App() {
-  const history = useHistory();
 
   const [formType, setFormType] = React.useState<'create' | 'edit'>('create');
   const [editIdCharacter, setEditIdCharacter] = React.useState<number | null>(null);
 
 
   //Estado del arreglo de personajes
-  const [CharactersElems, setCharacters] = React.useState<CharacterElemObj[]>([
+  const [CharactersElems, setCharacters] = useLocalStorage<CharacterElemObj[]>('CharacterElems', [
     {
       id: Math.random(),
       name: "DILUC",
@@ -158,7 +157,7 @@ function App() {
           type: "",
           stat: "",
           passive: "",
-          idOwner:0
+          idOwner: 0
         }
       }
     ]
@@ -242,8 +241,7 @@ function App() {
   const handleDeleteArtifact = (characterId: number, deleteArtifactId: number) => {
 
     const editIndex = CharactersElems.findIndex((elem) => elem.id === characterId);
-    //const artifactDeleteIndex = characterCopy[editIndex].artifacts.findIndex((elem)=> elem.id ===deleteArtifactId);
-
+    
     const newArtifactArray = CharactersElems[editIndex].artifacts.filter((elemA) => {
       if (elemA.id === deleteArtifactId) {
         return false;
@@ -255,8 +253,7 @@ function App() {
       const copy = prev;
       copy[editIndex].artifacts = newArtifactArray;
 
-      return [...copy]
-      //console.log(copy[editIndex].artifacts.filter((elemA)=> elemA.id === deleteArtifactId))  
+      return [...copy] 
     })
   }
 
@@ -293,7 +290,7 @@ function App() {
 
       console.log(copy)
       return [...copy]
-  
+
     })
   }
 
@@ -393,14 +390,15 @@ function App() {
                 </>
               }
 
-              {electro.length > 0 &&
+              {cryo.length > 0 &&
                 <>
                   <ElementTitle
-                    text="ELECTRO"
-                    img="electroIcon.png"
+                    text="CRYO"
+                    img="cryoIcon.png"
                   />
+
                   <article className="componentsDiv">
-                    {electro.map((elem) => {
+                    {cryo.map((elem) => {
                       return <Character
                         key={elem.id}
                         id={elem.id}
@@ -419,15 +417,14 @@ function App() {
                 </>
               }
 
-              {cryo.length > 0 &&
+              {electro.length > 0 &&
                 <>
                   <ElementTitle
-                    text="CRYO"
-                    img="cryoIcon.png"
+                    text="ELECTRO"
+                    img="electroIcon.png"
                   />
-
                   <article className="componentsDiv">
-                    {cryo.map((elem) => {
+                    {electro.map((elem) => {
                       return <Character
                         key={elem.id}
                         id={elem.id}
@@ -504,7 +501,6 @@ function App() {
             />
           </Route>
 
-
           <Route path="/weaponsList">
             <article className="info">
               <MainTitle
@@ -520,7 +516,7 @@ function App() {
                         id={elem.id}
                         name={elem.name}
                         img={elem.mainImg}
-                        idCharacter = {elem.idOwner}
+                        idCharacter={elem.idOwner}
                       />
                     })}
                   </article>
@@ -536,7 +532,7 @@ function App() {
                         id={elem.id}
                         name={elem.name}
                         img={elem.mainImg}
-                        idCharacter = {elem.idOwner}
+                        idCharacter={elem.idOwner}
                       />
                     })}
                   </article>
@@ -552,7 +548,7 @@ function App() {
                         id={elem.id}
                         name={elem.name}
                         img={elem.mainImg}
-                        idCharacter = {elem.idOwner}
+                        idCharacter={elem.idOwner}
                       />
                     })}
                   </article>
@@ -568,7 +564,7 @@ function App() {
                         id={elem.id}
                         name={elem.name}
                         img={elem.mainImg}
-                        idCharacter = {elem.idOwner}
+                        idCharacter={elem.idOwner}
                       />
                     })}
                   </article>
@@ -591,7 +587,7 @@ function App() {
                     id={elem.id}
                     name={elem.name}
                     mainImg={elem.mainImg}
-                    idCharacter = {elem.idOwner}
+                    idCharacter={elem.idOwner}
                   />
                 })}
               </article>
